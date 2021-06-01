@@ -10,6 +10,7 @@ async def on_ready():
 
 @client.event
 async def on_interaction(itr):
+    print(itr)
     await itr.send_message(f"Received an Interaction.```py\n{itr}\n```")
 
 client.run(os.environ['BOT_TOKEN'])
