@@ -10,6 +10,6 @@ async def on_ready():
 
 @client.event
 async def on_interaction(itr):
-    await itr.response.send_message(f"Bot ping is `{round(client.latency*1000)}ms`.",ephemeral=True)
+    await itr.response.send_message(f"Bot ping is `{round(client.latency*1000)}ms`.",ephemeral=True,view=discord.ui.view([discord.ui.Button(style=discord.ButtonStyle.blurple,custom_id="Ping_Again",label="Ping Again")]))
 
 client.run(os.environ['BOT_TOKEN'])
