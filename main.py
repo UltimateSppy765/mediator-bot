@@ -10,6 +10,7 @@ async def on_ready():
 
 @client.event
 async def on_interaction(itr):
+    print(itr.data)
     await itr.response.send_message(f"Bot ping is `{round(client.latency*1000)}ms`.",ephemeral=True)
 
 client.run(os.environ['BOT_TOKEN'])
