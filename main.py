@@ -1,7 +1,7 @@
 import os,discord
 from discord.ext import commands
 
-client=commands.Bot(command_prefix="!",activity=discord.Activity(type=discord.ActivityType.watching, name="your messages!"))
+client=commands.Bot(command_prefix="!",activity=discord.Activity(type=discord.ActivityType.watching, name="your messages!",allowed_mentions=discord.AllowedMentions(roles=False)))
 
 @client.event
 async def on_ready():
@@ -10,7 +10,13 @@ async def on_ready():
 
 @client.event
 async def on_interaction(itr):
-    print(itr.data)
-    await itr.response.send_message(f"Bot ping is `{round(client.latency*1000)}ms`.",ephemeral=True)
+    if itr.type==2 and itr.data.name=="ping":
+        await itr.response.send_message(f"Bot ping is `{round(client.latency*1000)}ms`.",ephemeral=True)
+
+@client.command()
+@commands.guild_only()
+@command.has_permissions(kick_members=True)
+async def mute(ctx,member,dur,*,reason=None):
+    await ctx.send("This command doesn't do anything yet.")
 
 client.run(os.environ['BOT_TOKEN'])
