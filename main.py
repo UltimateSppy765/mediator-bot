@@ -10,7 +10,7 @@ async def on_ready():
 
 @client.event
 async def on_interaction(itr):
-    if itr.type==2:
+    if itr.type==discord.InteractionType.application_command and itr.data.name=="ping":
         await itr.response.send_message(f"Bot ping is `{round(client.latency*1000)}ms`.",ephemeral=True)
 
 @client.command()
