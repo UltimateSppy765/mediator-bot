@@ -10,7 +10,7 @@ async def on_ready():
 
 @client.event
 async def on_interaction(itr):
-    if itr.type==2 and itr.data.name=="ping":
+    if itr.type==2:
         await itr.response.send_message(f"Bot ping is `{round(client.latency*1000)}ms`.",ephemeral=True)
 
 @client.command()
