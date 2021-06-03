@@ -15,7 +15,7 @@ async def on_interaction(itr):
 
 @client.command()
 @commands.guild_only()
-@command.has_permissions(kick_members=True)
+@commands.has_permissions(kick_members=True)
 async def mute(ctx,member,dur,*,reason=None):
     await ctx.send("This command doesn't do anything yet.")
 
