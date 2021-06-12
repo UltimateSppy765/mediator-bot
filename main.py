@@ -13,10 +13,4 @@ async def on_interaction(itr):
     if itr.type==discord.InteractionType.application_command and itr.data["name"]=="ping":
         await itr.response.send_message(f"Bot ping is `{round(client.latency*1000)}ms`.",ephemeral=True)
 
-@client.command()
-@commands.guild_only()
-@commands.has_permissions(kick_members=True)
-async def mute(ctx,member,dur,*,reason=None):
-    await ctx.send("This command doesn't do anything yet.")
-
 client.run(os.environ['BOT_TOKEN'])
