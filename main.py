@@ -1,4 +1,4 @@
-import os,discord
+import os,discord,traceback
 from discord.ext import commands
 
 cogs=["imports.cogs.wipe"] 
@@ -18,5 +18,6 @@ for i in cogs:
     try:
         client.load_extension(i)
     except:
-        print(f"Failed to load cog: {i}") 
+        print(f"Failed to load cog: {i}")
+        print(traceback.format_exc())
 client.run(os.environ['BOT_TOKEN'])
