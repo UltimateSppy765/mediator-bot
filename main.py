@@ -18,6 +18,5 @@ for i in cogs:
     try:
         client.load_extension(i)
     except:
-        c=client.get_channel(853786766883291146)
-        c.send(f"Cog `{i}` failed to load.")
+        print(f"Failed to load cog: {i}") 
 client.run(os.environ['BOT_TOKEN'])
