@@ -17,6 +17,7 @@ class wipe(commands.Cog):
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
         pur=await ctx.channel.purge(limit=count,before=ctx.id)
         await msg.edit(f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} messages.")
+        return
 
 def setup(client):
     client.add_cog(wipe(client))
