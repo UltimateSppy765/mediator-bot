@@ -15,7 +15,7 @@ class wipe(commands.Cog):
 		except:
 			return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages.",ephemeral=True)
 		if itr.channel.permissions_for(itr.user).manage_messages:
-			pass 
+			pass
 		else:
 			return await itr.response.send_message("<:merror:851584410935099423> You cannot use this command.",ephemeral=True)
                 try:
