@@ -8,6 +8,7 @@ class wipe(commands.Cog):
     @commands.Cog.listener()
     async def on_interaction(self,itr):
         if itr.type==discord.InteractionType.application_command and itr.data["name"]=="wipe":
+            print(itr.id)
             if itr.data["options"][0]["name"]=="off":
                 try:
                     guild=itr.guild_id
