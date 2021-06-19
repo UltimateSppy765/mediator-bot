@@ -9,25 +9,26 @@ class wipe(commands.Cog):
     async def on_interaction(self,itr):
         if itr.type==2 and itr.data["name']=="wipe":
             if itr.data["options"][0]["name"]=="off":
-				try:
-					guild=itr.guild
-				except:
-					return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages.",ephemeral=True)
-				if itr.channel.permissions_for(itr.user).manage_messages:
-					pass 
-				else:
-					return await itr.response.send_message("<:merror:851584410935099423> You cannot use this command.",ephemeral=True)
+		try:
+			guild=itr.guild
+									
+		except:
+			return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages.",ephemeral=True)
+		if itr.channel.permissions_for(itr.user).manage_messages:
+			pass 
+		else:
+			return await itr.response.send_message("<:merror:851584410935099423> You cannot use this command.",ephemeral=True)
                 try:
-					count=itr.data["options"][0]["options"][0]["value"]
-				except:
-					count=20
+			count=itr.data["options"][0]["options"][0]["value"]
+		except:
+			count=20
                 if count>200 or count<1:
-					return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
-				await itr.response.defer()
-				pur=await ctx.channel.purge(limit=count,before=itr.id)
-				s='s' if len(pur)!=1 else ''
-				await itr.send_message(f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
-				return
+			return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
+			await itr.response.defer()
+			pur=await ctx.channel.purge(limit=count,before=itr.id)
+			s='s' if len(pur)!=1 else ''
+			await itr.send_message(f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
+			return
 									
     @commands.has_permissions(manage_messages=True)
     @commands.group(invoke_without_command=True)
