@@ -5,7 +5,7 @@ class wipe(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @cogs.listener()
+    @cogs.listener
     async def on_interaction(self,itr):
         if itr.type==2 and itr.data["name"]=="wipe":
             if itr.data["options"][0]["name"]=="off":
@@ -28,7 +28,7 @@ class wipe(commands.Cog):
                 s='s' if len(pur)!=1 else ''
                 await itr.send_message(f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
                 return
-									
+					
     @commands.has_permissions(manage_messages=True)
     @commands.group(invoke_without_command=True)
     async def wipe(self,ctx):
