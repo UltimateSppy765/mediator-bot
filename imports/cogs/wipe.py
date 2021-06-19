@@ -46,7 +46,7 @@ class wipe(commands.Cog):
         return
     @wipe.command()
     async def user(self,ctx,user:typing.Union[abc.Snowflake,discord.Member],count:int=20):
-	"Wipes off messages sent by an individual user."
+        "Wipes off messages sent by an individual user."
         return await ctx.reply("Command in Works. :D")
 
 def setup(client):
