@@ -30,11 +30,14 @@ class wipe(commands.Cog):
                 return
 					
     @commands.has_permissions(manage_messages=True)
+    @commands.guild_only()
     @commands.group(invoke_without_command=True)
     async def wipe(self,ctx):
         "Base command for wiping messages in a channel."
         return await ctx.reply("<:mno:851569517242351616> Missing or Invalid Subcommand.") 
     @wipe.command()
+    @commands.has_permissions(manage_messages=True)
+    @commands.guild_only() 
     async def off(self,ctx,count:int=20):
         "Wipes off n messages in a channel with no checks. Maximum 200 messages." 
         if count>200 or count<1:
@@ -45,6 +48,8 @@ class wipe(commands.Cog):
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
     #@wipe.command()
+    #@commands.has_permissions(manage_messages=True)
+    #@commands.guild_only()
     #async def user(self,ctx,user:typing.Union[discord.Snowflake,discord.Member],count:int=20):
         #"Wipes off messages sent by an individual user."
         #return await ctx.reply("Command in Works. :D")
