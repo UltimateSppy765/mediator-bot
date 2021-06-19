@@ -7,7 +7,7 @@ class wipe(commands.Cog):
 
     @cogs.listener()
     async def on_interaction(self,itr):
-        if itr.type==2 and itr.data["name']=="wipe":
+        if itr.type==2 and itr.data["name"]=="wipe":
             if itr.data["options"][0]["name"]=="off":
 	        try:
 	            guild=itr.guild					
