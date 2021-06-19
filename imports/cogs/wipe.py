@@ -8,7 +8,6 @@ class wipe(commands.Cog):
     @commands.Cog.listener()
     async def on_interaction(self,itr):
         if itr.type==discord.InteractionType.application_command and itr.data["name"]=="wipe":
-            print(itr.id)
             if itr.data["options"][0]["name"]=="off":
                 try:
                     guild=itr.guild_id
@@ -25,7 +24,7 @@ class wipe(commands.Cog):
                 if count>200 or count<1:
                     return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
                 await itr.response.defer()
-                pur=await itr.channel.purge(limit=count,before=int(itr.id))
+                pur=await itr.channel.purge(limit=count,before=discord.Object(itr.id))
                 s='s' if len(pur)!=1 else ''
                 await itr.send_message(f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
                 return
