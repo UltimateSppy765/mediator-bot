@@ -10,10 +10,10 @@ class wipe(commands.Cog):
         if itr.type==discord.InteractionType.application_command and itr.data["name"]=="wipe":
             if itr.data["options"][0]["name"]=="off":
                 try:
-                    guild=itr.guild_id
+                    perms=itr.channel.permissions_for(itr.user).manage_messages
                 except:
                     return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages.",ephemeral=True)
-                if itr.channel.permissions_for(itr.user).manage_messages==True:
+                if perms:
                     pass
                 else:
                     return await itr.response.send_message("<:merror:851584410935099423> You cannot use this command.",ephemeral=True)
