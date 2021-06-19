@@ -5,7 +5,7 @@ class wipe(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.Cog.listener
+    @commands.Cog.listener()
     async def on_interaction(self,itr):
         if itr.type==2 and itr.data["name"]=="wipe":
             if itr.data["options"][0]["name"]=="off":
