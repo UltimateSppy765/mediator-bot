@@ -26,7 +26,7 @@ class wipe(commands.Cog):
                 await itr.response.defer()
                 pur=await itr.channel.purge(limit=count,before=discord.Object(itr.id))
                 s='s' if len(pur)!=1 else ''
-                await itr.followup.edit_message(itr.id,content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
+                await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
                 return
 					
     @commands.has_permissions(manage_messages=True)
