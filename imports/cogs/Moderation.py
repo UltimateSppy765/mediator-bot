@@ -7,8 +7,9 @@ class Moderation(commands.Cog):
 
     @commands.Cog.listener()
     async def on_interaction(self,itr):
-        if itr.type==discord.InteractionType.application_command and itr.data["name"]=="wipe":
-            return await self.wipeslash(itr)
+        if itr.type==2
+	    if itr.data["name"]=="wipe":
+                return await self.wipeslash(itr)
 					
     @commands.has_permissions(manage_messages=True)
     @commands.guild_only()
