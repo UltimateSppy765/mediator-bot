@@ -9,15 +9,12 @@ class Miscellaneous(commands.Cog):
     async def on_interaction(self,itr):
         if itr.type==2:
             if itr.data["name"]=="ping":
-                await self.pingslash(itr)
+                await itr.response.send_message(f"Bot ping is `{round(self.client.latency*1000)}ms`.",ephemeral=True)
     
     @commands.command()
     async def ping(self,ctx):
         "Shows bot latency."
         await ctx.reply(f"Bot ping is `{round(self.client.latency*1000)}ms`.",mention_author=False)
-    
-    async def pingslash(self,itr):
-        await itr.response.send_message(f"Bot ping is `{round(self.client.latency*1000)}ms`.",ephemeral=True)
 
 def setup(client):
     client.add_cog(Miscellaneous(client))
