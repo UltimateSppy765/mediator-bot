@@ -1,7 +1,7 @@
 import os,discord,traceback
 from discord.ext import commands
 
-coggs=["imports.cogs.wipe"] 
+coggs=["imports.cogs.Moderation"] 
 client=commands.Bot(command_prefix="!",activity=discord.Activity(type=discord.ActivityType.watching, name="your messages!",allowed_mentions=discord.AllowedMentions(roles=False)))
 
 @client.event
