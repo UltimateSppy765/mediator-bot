@@ -42,10 +42,10 @@ class Moderation(commands.Cog):
             perms=itr.channel.permissions_for(itr.user).manage_messages
         except:
             return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages.",ephemeral=True)
-        if perms=False:
+        if perms==False:
             return await itr.response.send_message("<:merror:851584410935099423> You cannot use this command.",ephemeral=True)
-        if itr.channel.permissions_for(self.user).manage_messages=False or itr.channel.permissions_for(self.user).read_message_history=False:
-            if itr.channel.permissions_for(self.user).manage_messages=False and itr.channel.permissions_for(self.user).read_message_history=False:
+        if itr.channel.permissions_for(self.user).manage_messages==False or itr.channel.permissions_for(self.user).read_message_history==False:
+            if itr.channel.permissions_for(self.user).manage_messages==False and itr.channel.permissions_for(self.user).read_message_history==False:
                 missperms="Read Message History\nManage Messages"
             else:
                 missperms="Read Message History" if itr.channel.permissions_for(self.user).read_message_history=False else "Manage Messages"
