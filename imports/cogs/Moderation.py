@@ -7,7 +7,7 @@ class Moderation(commands.Cog):
 
     @commands.Cog.listener()
     async def on_interaction(self,itr):
-        if itr.type==2
+        if itr.type==2:
 	    if itr.data["name"]=="wipe":
                 return await self.wipeslash(itr)
 					
