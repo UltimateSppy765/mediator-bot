@@ -5,6 +5,12 @@ class Miscellaneous(commands.Cog):
     def __init__(self,client):
         self.client=client
     
+    @commands.Cog.listener()
+    async def on_interaction(self,itr):
+        if itr.type==discord.InteractionType.application_command:
+            if itr.data["name"]=="ping":
+                await itr.response.send_message(f"Bot ping is `{round(self.client.latency*1000)}ms`.",ephemeral=True)
+    
     @commands.command()
     async def ping(self,ctx):
         "Shows bot latency."
