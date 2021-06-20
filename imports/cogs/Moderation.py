@@ -9,7 +9,7 @@ class Moderation(commands.Cog):
     async def on_interaction(self,itr):
         if itr.type==2:
             if itr.data["name"]=="wipe":
-                return await self.wipeslash(itr)
+                return await self.wipeslash(itr=itr)
 					
     @commands.has_permissions(manage_messages=True)
     @commands.guild_only()
