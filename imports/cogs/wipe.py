@@ -47,12 +47,12 @@ class wipe(commands.Cog):
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
-    #@wipe.command()
-    #@commands.has_permissions(manage_messages=True)
-    #@commands.guild_only()
-    #async def user(self,ctx,user:typing.Union[discord.Snowflake,discord.Member],count:int=20):
-        #"Wipes off messages sent by an individual user."
-        #return await ctx.reply("Command in Works. :D")
+    @wipe.command()
+    @commands.has_permissions(manage_messages=True)
+    @commands.guild_only()
+    async def user(self,ctx,user:typing.Union[discord.Object,discord.Member],count:int=20):
+        "Wipes off messages sent by an individual user."
+        return await ctx.reply("Command in Works. :D")
 
 def setup(client):
     client.add_cog(wipe(client))
