@@ -1,5 +1,6 @@
 import discord,typing
 from discord.ext import commands
+from datetime import datetime,timedelta
 
 class Moderation(commands.Cog):
     def __init__(self,client):
@@ -68,10 +69,13 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
+        tod=datetime.now()
+        le=timedelta(days=14)
+        twe=tod-le
         lim=1
         ss=0
         mlist=[]
-        async for mes in ctx.channel.history(limit=500,before=ctx.message):
+        async for mes in ctx.channel.history(limit=500,before=ctx.message,after=twe):
             if text.lower() in mes.content.lower() and lim<=count:
                 mlist.append(mes.id)
                 lim+=1
@@ -84,11 +88,12 @@ class Moderation(commands.Cog):
                 return True
             else:
                 return False
-        pur=await ctx.channel.purge(limit=ss,before=ctx.message,check=mchk)
+        pur=await ctx.channel.purge(limit=ss,before=ctx.message,after=twe,check=mchk)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return 
     async def wipeslash(self,itr):
+        scn=itr.data["options"][0]["name"]
         try:
             perms=itr.channel.permissions_for(itr.user).manage_messages
         except:
@@ -103,15 +108,17 @@ class Moderation(commands.Cog):
                 missperms="Read Message History" if itr.channel.permissions_for(mem).read_message_history==False else "Manage Messages"
             return await itr.response.send_message(f"<:merror:851584410935099423> I do not have the required permissions to perform this, please check my permissions for this channel:```\n{missperms}\n```",ephemeral=True)
         try:
-            count=itr.data["options"][0]["options"][0]["value"]
+            count=itr.data["options"][0]["options"][0]["value"] if scn not in ["user"] else itr.data["options"][0]["options"][1]["value"]
         except:
             count=20
         if count>200 or count<1:
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
-        if itr.data["options"][0]["name"]=="off":
+        if scn=="off":
             await itr.response.defer()
             pur=await itr.channel.purge(limit=count,before=discord.Object(itr.id))
             s='s' if len(pur)!=1 else ''
+        if scn=="user":
+            return await itr.response.send_message("Command in works. :D")
         return await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
     
 def setup(client):
