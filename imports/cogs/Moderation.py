@@ -39,7 +39,7 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        lim=0
+        lim=1
         ss=0
         mlist=[]
         async for mes in ctx.channel.history(limit=500,before=ctx.message):
@@ -47,6 +47,7 @@ class Moderation(commands.Cog):
                 mlist.append(mes.id)
                 lim+=1
             elif lim>count:
+                ss+=1
                 break
             ss+=1
         print(mlist)
