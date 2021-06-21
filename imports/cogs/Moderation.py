@@ -27,10 +27,7 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        tod=datetime.now()
-        dur=timedelta(days=14)
-        wl=tod-dur
-        pur=await ctx.channel.purge(limit=count,before=ctx.message,after=wl)
+        pur=await ctx.channel.purge(limit=count,before=ctx.message)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
@@ -47,6 +44,7 @@ class Moderation(commands.Cog):
         dur=timedelta(days=14)
         wl=tod-dur
         hist=ctx.channel.history(limit=500,before=ctx.message,after=wl)
+        hist.reverse()
         print(hist)
         lim=0
         ss=0
@@ -64,7 +62,7 @@ class Moderation(commands.Cog):
                 return True
             else:
                 return False
-        pur=await ctx.channel.purge(limit=ss,before=ctx.message,after=wl,check=mchk)
+        pur=await ctx.channel.purge(limit=ss,before=ctx.message,check=mchk)
         print(pur)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
