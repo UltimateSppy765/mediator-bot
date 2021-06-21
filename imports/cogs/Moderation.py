@@ -40,8 +40,14 @@ class Moderation(commands.Cog):
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         lim=0
         uid=user.id
+        def uschk(m):
+            if lim<=count and message.author.id==usid:
+                count+=1
+                return True
+            else:
+                return False
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        pur=await ctx.channel.purge(before=ctx.message,check=lambda m:(m.author.id==uid and lim<=count))
+        pur=await ctx.channel.purge(before=ctx.message,check=uschk)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
