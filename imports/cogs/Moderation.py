@@ -50,7 +50,9 @@ class Moderation(commands.Cog):
         async for m in ctx.channel.history(limit=500,before=ctx.message,after=wl):
             if m.author.id==user.id and lim<=count:
                 mlist.append(m)
-            lim+=1
+                lim+=1
+            elif lim>count:
+                break
         def mchk(m,list=mlist):
             if m in list:
                 return True
