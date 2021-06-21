@@ -50,14 +50,12 @@ class Moderation(commands.Cog):
                 ss+=1
                 break
             ss+=1
-        print(mlist)
         def mchk(m,list=mlist):
             if m.id in list:
                 return True
             else:
                 return False
         pur=await ctx.channel.purge(limit=ss,before=ctx.message,check=mchk)
-        print(pur)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
