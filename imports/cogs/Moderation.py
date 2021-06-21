@@ -111,7 +111,7 @@ class Moderation(commands.Cog):
                 missperms="Read Message History" if itr.channel.permissions_for(mem).read_message_history==False else "Manage Messages"
             return await itr.response.send_message(f"<:merror:851584410935099423> I do not have the required permissions to perform this, please check my permissions for this channel:```\n{missperms}\n```",ephemeral=True)
         try:
-            count=itr.data["options"][0]["options"][0]["value"] if scn not in ["user"] else itr.data["options"][0]["options"][1]["value"]
+            count=itr.data["options"][0]["options"][0]["value"] if scn not in ["user","hastext"] else itr.data["options"][0]["options"][1]["value"]
         except:
             count=20
         if count>200 or count<1:
@@ -133,6 +133,29 @@ class Moderation(commands.Cog):
             mlist=[]
             async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
                 if mes.author.id==usid and lim<=count:
+                    mlist.append(mes.id)
+                    lim+=1
+                elif lim>count:
+                    ss+=1
+                    break
+                ss+=1
+            def mchk(m,list=mlist):
+                if m.id in list:
+                    return True
+                else:
+                    return False
+            pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,check=mchk)
+        if scn=="hastext":
+            await itr.response.defer()
+            cont=itr.data["options"][0]["options"][0]["value"]
+            tod=datetime.now()
+            le=timedelta(days=14)
+            twe=tod-le
+            lim=1
+            ss=0
+            mlist=[]
+            async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
+                if cont.lower() in mes.content.lower() and lim<=count:
                     mlist.append(mes.id)
                     lim+=1
                 elif lim>count:
