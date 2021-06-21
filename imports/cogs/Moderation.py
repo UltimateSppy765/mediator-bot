@@ -118,10 +118,34 @@ class Moderation(commands.Cog):
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
         if scn=="off":
             await itr.response.defer()
-            pur=await itr.channel.purge(limit=count,before=discord.Object(itr.id))
+            tod=datetime.now()
+            le=timedelta(days=14)
+            twe=tod-le
+            pur=await itr.channel.purge(limit=count,oldest_first=False,after=twe,before=discord.Object(itr.id))
             s='s' if len(pur)!=1 else ''
         if scn=="user":
-            return await itr.response.send_message("Command in works. :D")
+            await itr.response.defer()
+            usid=int(itr.data["options"][0]["options"][0]["value"])
+            tod=datetime.now()
+            le=timedelta(days=14)
+            twe=tod-le
+            lim=1
+            ss=0
+            mlist=[]
+            async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
+                if mes.author.id==usid and lim<=count:
+                    mlist.append(mes.id)
+                    lim+=1
+                elif lim>count:
+                    ss+=1
+                    break
+                ss+=1
+            def mchk(m,list=mlist):
+                if m.id in list:
+                    return True
+                else:
+                    return False
+            pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,check=mchk)
         return await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
     
 def setup(client):
