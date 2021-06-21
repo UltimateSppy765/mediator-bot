@@ -63,7 +63,7 @@ class Moderation(commands.Cog):
     @commands.bot_has_permissions(read_message_history=True,send_messages=True,manage_messages=True)
     @commands.has_permissions(manage_messages=True)
     @commands.guild_only()
-    async def hastext(self,ctx,count:typing.Optional[int])=20,*,text:str):
+    async def hastext(self,ctx,count:typing.Optional[int]=20,*,text:str):
         "Wipes off messages containing specific text (Text can be input using ""). Checks the most recent 500 messages."
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
