@@ -1,5 +1,6 @@
 import discord,typing
 from discord.ext import commands
+from datetime import datetime,timedelta
 
 class Moderation(commands.Cog):
     def __init__(self,client):
@@ -26,7 +27,10 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        pur=await ctx.channel.purge(limit=count,before=ctx.message)
+        tod=datetime.now()
+        dur=timedelta(days=14)
+        wl=tod-dur
+        pur=await ctx.channel.purge(limit=count,before=ctx.message,after=wl)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
@@ -38,15 +42,22 @@ class Moderation(commands.Cog):
         "Wipes off messages sent by an individual user."
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
+        tod=datetime.now()
+        dur=timedelta(days=14)
+        wl=tod-dur
         lim=0
-        def uschk(m,c=count,usid=user.id):
-            if lim<=c and m.author.id==usid:
-                lim+=1
+        mlist=[]
+        async for m in ctx.channel.history(limit=1000,before=ctx.message,after=wl):
+            if m.author.id==user.id and lim<=count:
+                mlist.append(m)
+            lim+=1
+        def mcheck(m,mlist):
+            if m in mlist:
                 return True
             else:
                 return False
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        pur=await ctx.channel.purge(before=ctx.message,check=uschk)
+        pur=await ctx.channel.purge(limit=1000,before=ctx.message,after=wl,check=mchk)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
