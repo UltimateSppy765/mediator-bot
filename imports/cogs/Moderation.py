@@ -41,6 +41,7 @@ class Moderation(commands.Cog):
         lim=0
         uid=user.id
         def uschk(m):
+            global count
             if lim<=count and message.author.id==usid:
                 count+=1
                 return True
