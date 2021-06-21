@@ -47,17 +47,17 @@ class Moderation(commands.Cog):
         wl=tod-dur
         lim=0
         mlist=[]
-        async for m in ctx.channel.history(limit=1000,before=ctx.message,after=wl):
+        async for m in ctx.channel.history(limit=500,before=ctx.message,after=wl):
             if m.author.id==user.id and lim<=count:
                 mlist.append(m)
             lim+=1
-        def mcheck(m,mlist):
-            if m in mlist:
+        def mchk(m,list=mlist):
+            if m in list:
                 return True
             else:
                 return False
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        pur=await ctx.channel.purge(limit=1000,before=ctx.message,after=wl,check=mchk)
+        pur=await ctx.channel.purge(limit=500,before=ctx.message,after=wl,check=mchk)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
