@@ -46,7 +46,7 @@ class Moderation(commands.Cog):
         lim=1
         ss=0
         mlist=[]
-        async for mes in ctx.channel.history(limit=500,before=ctx.message):
+        async for mes in ctx.channel.history(limit=500,before=ctx.message,after=twe,oldest_first=False):
             if mes.author.id==user.id and lim<=count:
                 mlist.append(mes.id)
                 lim+=1
