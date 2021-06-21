@@ -122,7 +122,6 @@ class Moderation(commands.Cog):
             le=timedelta(days=14)
             twe=tod-le
             pur=await itr.channel.purge(limit=count,oldest_first=False,after=twe,before=discord.Object(itr.id))
-            s='s' if len(pur)!=1 else ''
         if scn=="user":
             await itr.response.defer()
             usid=int(itr.data["options"][0]["options"][0]["value"])
@@ -146,6 +145,7 @@ class Moderation(commands.Cog):
                 else:
                     return False
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,check=mchk)
+        s='s' if len(pur)!=1 else ''
         return await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
     
 def setup(client):
