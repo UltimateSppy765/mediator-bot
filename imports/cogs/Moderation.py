@@ -15,14 +15,14 @@ class Moderation(commands.Cog):
     @commands.guild_only()
     @commands.group(invoke_without_command=True)
     async def wipe(self,ctx):
-        "Base command for wiping messages in a channel."
+        "Base command for wiping messages in a channel. Max messages that can be purged is 200."
         return await ctx.reply("<:mno:851569517242351616> Missing or Invalid Subcommand.") 
     @wipe.command()
     @commands.has_permissions(manage_messages=True)
     @commands.bot_has_permissions(read_message_history=True,send_messages=True,manage_messages=True)
     @commands.guild_only() 
     async def off(self,ctx,count:int=20):
-        "Wipes off n messages in a channel with no checks. Maximum 200 messages." 
+        "Wipes off n messages in a channel with no checks." 
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
@@ -35,7 +35,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     @commands.guild_only()
     async def user(self,ctx,user:typing.Union[discord.Object,discord.Member],count:int=20):
-        "Wipes off messages sent by an individual user."
+        "Wipes off messages sent by an individual user. Checks the most recent 500 messages."
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
@@ -59,7 +59,35 @@ class Moderation(commands.Cog):
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
-    
+    @wipe.command()
+    @commands.bot_has_permissions(read_message_history=True,send_messages=True,manage_messages=True)
+    @commands.has_permissions(manage_messages=True)
+    @commands.guild_only()
+    async def hastext(self,ctx,user:typing.Union[discord.Object,discord.Member],count:int=20):
+        "Wipes off messages containing specific text. Checks the most recent 500 messages."
+        if count>200 or count<1:
+            return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
+        msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
+        lim=1
+        ss=0
+        mlist=[]
+        async for mes in ctx.channel.history(limit=500,before=ctx.message):
+            if mes.author.id==user.id and lim<=count:
+                mlist.append(mes.id)
+                lim+=1
+            elif lim>count:
+                ss+=1
+                break
+            ss+=1
+        def mchk(m,list=mlist):
+            if m.id in list:
+                return True
+            else:
+                return False
+        pur=await ctx.channel.purge(limit=ss,before=ctx.message,check=mchk)
+        s='s' if len(pur)!=1 else ''
+        await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
+        return 
     async def wipeslash(self,itr):
         try:
             perms=itr.channel.permissions_for(itr.user).manage_messages
