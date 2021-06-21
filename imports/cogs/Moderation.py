@@ -39,8 +39,7 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         lim=0
-        uid=user.id
-        def uschk(m,c=count):
+        def uschk(m,c=count,usid=user.id):
             if lim<=c and m.author.id==usid:
                 c+=1
                 return True
