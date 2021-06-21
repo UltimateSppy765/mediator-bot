@@ -36,7 +36,15 @@ class Moderation(commands.Cog):
     @commands.guild_only()
     async def user(self,ctx,user:typing.Union[discord.Object,discord.Member],count:int=20):
         "Wipes off messages sent by an individual user."
-        return await ctx.reply("Command in Works. :D")
+        if count>200 or count<1:
+            return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
+        lim=0
+        uid=user.id
+        msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
+        pur=await ctx.channel.purge(before=ctx.message,check=lambda m:(m.author.id==uid and lim<=count))
+        s='s' if len(pur)!=1 else ''
+        await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
+        return
     
     async def wipeslash(self,itr):
         try:
