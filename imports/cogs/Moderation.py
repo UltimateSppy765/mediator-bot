@@ -1,6 +1,5 @@
 import discord,typing
 from discord.ext import commands
-from datetime import datetime,timedelta
 
 class Moderation(commands.Cog):
     def __init__(self,client):
@@ -40,25 +39,19 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        tod=datetime.now()
-        dur=timedelta(days=14)
-        wl=tod-dur
-        hist=ctx.channel.history(limit=500,before=ctx.message,after=wl)
-        hist.reverse()
-        print(hist)
         lim=0
         ss=0
         mlist=[]
-        async for mes in hist:
+        async for mes in ctx.channel.history(limit=500,before=ctx.message):
             if mes.author.id==user.id and lim<=count:
-                mlist.append(mes)
+                mlist.append(mes.id)
                 lim+=1
             elif lim>count:
                 break
             ss+=1
         print(mlist)
         def mchk(m,list=mlist):
-            if m in list:
+            if m.id in list:
                 return True
             else:
                 return False
