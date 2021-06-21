@@ -42,10 +42,12 @@ class Moderation(commands.Cog):
         "Wipes off messages sent by an individual user."
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
+        msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
         tod=datetime.now()
         dur=timedelta(days=14)
         wl=tod-dur
         lim=0
+        ss=0
         mlist=[]
         async for m in ctx.channel.history(limit=500,before=ctx.message,after=wl):
             if m.author.id==user.id and lim<=count:
@@ -53,13 +55,13 @@ class Moderation(commands.Cog):
                 lim+=1
             elif lim>count:
                 break
+            ss+=1
         def mchk(m,list=mlist):
             if m in list:
                 return True
             else:
                 return False
-        msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        pur=await ctx.channel.purge(limit=500,before=ctx.message,after=wl,check=mchk)
+        pur=await ctx.channel.purge(limit=ss,before=ctx.message,after=wl,check=mchk)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
