@@ -41,7 +41,7 @@ class Moderation(commands.Cog):
         lim=0
         def uschk(m,c=count,usid=user.id):
             if lim<=c and m.author.id==usid:
-                c+=1
+                lim+=1
                 return True
             else:
                 return False
