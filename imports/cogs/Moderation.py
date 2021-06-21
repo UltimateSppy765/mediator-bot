@@ -27,7 +27,8 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        pur=await ctx.channel.purge(limit=count,before=ctx.message)
+        twe=datetime.now()-timedelta(days=14)
+        pur=await ctx.channel.purge(limit=count,before=ctx.message,oldest_first=False,after=twe)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
@@ -40,9 +41,7 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        tod=datetime.now()
-        le=timedelta(days=14)
-        twe=tod-le
+        twe=datetime.now()-timedelta(days=14)
         lim=1
         ss=0
         mlist=[]
@@ -72,9 +71,7 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
-        tod=datetime.now()
-        le=timedelta(days=14)
-        twe=tod-le
+        twe=datetime.now()-timedelta(days=14)
         lim=1
         ss=0
         mlist=[]
@@ -118,16 +115,12 @@ class Moderation(commands.Cog):
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
         if scn=="off":
             await itr.response.defer()
-            tod=datetime.now()
-            le=timedelta(days=14)
-            twe=tod-le
+            twe=datetime.now()-timedelta(days=14)
             pur=await itr.channel.purge(limit=count,oldest_first=False,bulk=True,after=twe,before=discord.Object(itr.id))
         if scn=="user":
             await itr.response.defer()
             usid=int(itr.data["options"][0]["options"][0]["value"])
-            tod=datetime.now()
-            le=timedelta(days=14)
-            twe=tod-le
+            twe=datetime.now()-timedelta(days=14)
             lim=1
             ss=0
             mlist=[]
@@ -148,9 +141,7 @@ class Moderation(commands.Cog):
         if scn=="hastext":
             await itr.response.defer()
             cont=itr.data["options"][0]["options"][0]["value"]
-            tod=datetime.now()
-            le=timedelta(days=14)
-            twe=tod-le
+            twe=datetime.now()-timedelta(days=14)
             lim=1
             ss=0
             mlist=[]
