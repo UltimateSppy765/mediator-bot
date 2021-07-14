@@ -141,7 +141,9 @@ class Moderation(commands.Cog):
                 missperms="Read Message History" if itr.channel.permissions_for(mem).read_message_history==False else "Manage Messages"
             return await itr.response.send_message(f"<:merror:851584410935099423> I do not have the required permissions to perform this, please check my permissions for this channel:```\n{missperms}\n```",ephemeral=True)
         try:
-            count=itr.data["options"][0]["options"][0]["value"] if scn not in ["user","hastext"] else itr.data["options"][0]["options"][1]["value"]
+            for i in [0,1]:
+                if itr.data["options"][0]["options"][i]["name"]=="count":
+                    count=itr.data["options"][0]["options"][i]["value"]
         except:
             count=20
         if count>200 or count<1:
@@ -171,6 +173,36 @@ class Moderation(commands.Cog):
                 else:
                     return False
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),bulk=True,after=twe,oldest_first=False,check=mchk)
+        if scn=="perspective":
+            try:
+                for i in [0,1]:
+                    if itr.data["options"][0]["options"][i]["name"]=="percentage":
+                        perc=itr.data["options"][0]["options"][i]["value"]
+            except:
+                perc=95
+            if perc>99 or perc<20:
+                return await itr.response.send_message("<:merror:851584410935099423> Toxicity parameter cannot be greater than 99 or less than 20.",ephemeral=True)
+            await itr.response.defer()
+            twe=datetime.now()-timedelta(days=14)
+            lim=1
+            ss=0
+            mlist=[]
+            async for mes in itr.channel.history(limit=300,before=discord.Object(itr.id),after=twe,oldest_first=False):
+                if perspective.istoxic(txt=mes.content,per=perc)==True and lim<=count:
+                    mlist.append(mes.id)
+                    lim+=1
+                elif lim>count:
+                    ss+=1
+                    break
+                ss+=1
+            def mchk(m,list=mlist):
+                if m.id in list:
+                    return True
+                else:
+                    return False
+            pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
+        s='s' if len(pur)!=1 else ''
+        return await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         if scn=="hastext":
             await itr.response.defer()
             cont=itr.data["options"][0]["options"][0]["value"]
