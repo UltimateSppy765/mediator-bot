@@ -79,7 +79,7 @@ class Moderation(commands.Cog):
         ss=0
         mlist=[]
         async for mes in ctx.channel.history(limit=300,before=ctx.message,after=twe,oldest_first=False):
-            if perspective.istoxic(text=mes.content,per=perc)==True and lim<=count:
+            if perspective.istoxic(txt=mes.content,per=perc)==True and lim<=count:
                 mlist.append(mes.id)
                 lim+=1
             elif lim>count:
