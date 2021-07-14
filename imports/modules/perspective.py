@@ -14,8 +14,8 @@ def istoxic(text:str,per:int=95):
         "comment": {"text": text},
         "requestedAttributes": {"PROFANITY": {}}
     }
-    res=json.dumps(client.comments().analyze(body=analyze_request).execute())
-    perc=res["attributeScores"]["PROFANITY"]["summaryScore"]["value"]*100
+    res=json.loads(json.dumps(client.comments().analyze(body=analyze_request).execute()))
+    perc=float(res["attributeScores"]["PROFANITY"]["summaryScore"]["value"])*100
     if perc>per:
         return True
     else:
