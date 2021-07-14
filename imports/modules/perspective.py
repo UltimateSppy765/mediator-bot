@@ -26,4 +26,5 @@ def getscore(text:str):
         perc=float(res["attributeScores"]["PROFANITY"]["summaryScore"]["value"])*100
     except:
         perc=50
+    print(perc)
     return perc
