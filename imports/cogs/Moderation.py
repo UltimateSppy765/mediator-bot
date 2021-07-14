@@ -71,6 +71,8 @@ class Moderation(commands.Cog):
         "[BETA] Wipes off messages containing toxic text. Checks the most recent 300 messages. The first argument is always message count irrespective of how many arguments are passed."
         if count>200 or count<1:
             return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
+        if perc>99 or perc<20:
+            return await ctx.reply("<:merror:851584410935099423> Toxicity parameter cannot be greater than 99 or less than 20.")
         msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
         twe=datetime.now()-timedelta(days=14)
         lim=1
