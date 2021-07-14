@@ -1,6 +1,7 @@
 import discord,typing
 from discord.ext import commands
 from datetime import datetime,timedelta
+from imports.modules import perspective
 
 class Moderation(commands.Cog):
     def __init__(self,client):
@@ -59,6 +60,36 @@ class Moderation(commands.Cog):
             else:
                 return False
         pur=await ctx.channel.purge(limit=ss,before=ctx.message,oldest_first=False,after=twe,check=mchk)
+        s='s' if len(pur)!=1 else ''
+        await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
+        return
+    @wipe.command()
+    @commands.bot_has_permissions(read_message_history=True,send_messages=True,manage_messages=True)
+    @commands.has_permissions(manage_messages=True)
+    @commands.guild_only()
+    async def perspective(self,ctx,count:typing.Optional[int]=20,perc:typing.Optional[int]=95):
+        "[BETA] Wipes off messages containing toxic text. Checks the most recent 300 messages. The first argument is always message count irrespective of how many arguments are passed."
+        if count>200 or count<1:
+            return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
+        msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
+        twe=datetime.now()-timedelta(days=14)
+        lim=1
+        ss=0
+        mlist=[]
+        async for mes in ctx.channel.history(limit=300,before=ctx.message,after=twe,oldest_first=False):
+            if perspective.istoxic(text=mes.content,per=perc)==True and lim<=count:
+                mlist.append(mes.id)
+                lim+=1
+            elif lim>count:
+                ss+=1
+                break
+            ss+=1
+        def mchk(m,list=mlist):
+            if m.id in list:
+                return True
+            else:
+                return False
+        pur=await ctx.channel.purge(limit=ss,before=ctx.message,after=twe,oldest_first=False,check=mchk)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         return
