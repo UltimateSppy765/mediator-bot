@@ -114,11 +114,11 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
         if scn=="off":
-            await itr.response.defer(ephemeral=True)
+            await itr.response.defer()
             twe=datetime.now()-timedelta(days=14)
             pur=await itr.channel.purge(limit=count,oldest_first=False,bulk=True,after=twe,before=discord.Object(itr.id))
         if scn=="user":
-            await itr.response.defer(ephemeral=True)
+            await itr.response.defer()
             usid=int(itr.data["options"][0]["options"][0]["value"])
             twe=datetime.now()-timedelta(days=14)
             lim=1
@@ -139,7 +139,7 @@ class Moderation(commands.Cog):
                     return False
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),bulk=True,after=twe,oldest_first=False,check=mchk)
         if scn=="hastext":
-            await itr.response.defer(ephemeral=True)
+            await itr.response.defer()
             cont=itr.data["options"][0]["options"][0]["value"]
             twe=datetime.now()-timedelta(days=14)
             lim=1
