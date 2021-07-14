@@ -9,14 +9,21 @@ client=discovery.build(
   static_discovery=False,
 )
 
-def istoxic(text:str,per:int=95):
-    analyze_request={
-        "comment": {"text": text},
-        "requestedAttributes": {"PROFANITY": {}}
-    }
-    res=json.loads(json.dumps(client.comments().analyze(body=analyze_request).execute()))
-    perc=float(res["attributeScores"]["PROFANITY"]["summaryScore"]["value"])*100
+def istoxic(txt:str,per:int=95):
+    perc=getscore(txt)
     if perc>per:
         return True
     else:
         return False
+    
+def getscore(text:str):
+    analyze_request={
+        "comment": {"text": text},
+        "requestedAttributes": {"PROFANITY": {}}
+    }
+    try:
+        res=json.loads(json.dumps(client.comments().analyze(body=analyze_request).execute()))
+        perc=float(res["attributeScores"]["PROFANITY"]["summaryScore"]["value"])*100
+    except:
+        perc=50
+    return perc
