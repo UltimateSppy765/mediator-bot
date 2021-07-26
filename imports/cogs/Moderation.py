@@ -223,24 +223,28 @@ class Moderation(commands.Cog):
             try:
                 for i in itr.data["options"][0]["options"]:
                     if i["name"]=="user":
-                        usid=i["value"]
-                varfour=f"User ID? {usid}"
+                        ud=i["value"]
+                varfour=f"User ID? {ud}"
                 del varfour
             except:
-                usid=None
+                ud="None"
+            print(f"Count: {count}\nText: {cont}\nUser: {ud}")
             lim=1
             ss=0
             mlist=[]
             def uchk(a:int,b):
-                if b is None:
+                print(a)
+                print(b)
+                if b=="None":
                     return True
                 elif a==b:
                     return True
                 else:
                     return False
             async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
-                if cont.lower() in mes.content.lower() and uchk(a=mes.author.id,b=usid)==True and lim<=count:
-                    mlist.append(mes.id)
+                if cont.lower() in mes.content.lower() and lim<=count:
+                    if uchk(a=mes.author.id,b=ud)==True:
+                        mlist.append(mes.id)
                     lim+=1
                 elif lim>count:
                     ss+=1
