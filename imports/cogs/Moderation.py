@@ -215,27 +215,27 @@ class Moderation(commands.Cog):
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
         s='s' if len(pur)!=1 else ''
         return await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
-        if scn=="hastext":
-            await itr.response.defer(ephemeral=eph)
-            cont=itr.data["options"][0]["options"][0]["value"]
-            twe=datetime.now()-timedelta(days=14)
-            lim=1
-            ss=0
-            mlist=[]
-            async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
-                if cont.lower() in mes.content.lower() and lim<=count:
-                    mlist.append(mes.id)
-                    lim+=1
-                elif lim>count:
-                    ss+=1
-                    break
+    if scn=="hastext":
+        await itr.response.defer(ephemeral=eph)
+        cont=itr.data["options"][0]["options"][0]["value"]
+        twe=datetime.now()-timedelta(days=14)
+        lim=1
+        ss=0
+        mlist=[]
+        async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
+            if cont.lower() in mes.content.lower() and lim<=count:
+                mlist.append(mes.id)
+                lim+=1
+            elif lim>count:
                 ss+=1
-            def mchk(m,list=mlist):
-                if m.id in list:
-                    return True
-                else:
-                    return False
-            pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
+                break
+            ss+=1
+        def mchk(m,list=mlist):
+            if m.id in list:
+                return True
+            else:
+                return False
+        pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
         s='s' if len(pur)!=1 else ''
         return await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
     
