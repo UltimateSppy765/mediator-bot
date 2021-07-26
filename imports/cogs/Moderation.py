@@ -144,9 +144,10 @@ class Moderation(commands.Cog):
             for i in itr.data["options"][0]["options"]:
                 if i["name"]=='count':
                     count=i["value"]
+            varone=f"Count? {count}"
+            del varone
         except:
             count=20
-        print(count)
         if count>200 or count<1:
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
         if scn=="off":
@@ -179,9 +180,10 @@ class Moderation(commands.Cog):
                 for i in itr.data["options"][0]["options"]:
                     if i ["name"]=="percentage":
                         perc=i["value"]
+                vartwo=f"Percentage? {perc}"
+                del vartwo
             except:
                 perc=95
-            print(perc)
             if perc>99 or perc<20:
                 return await itr.response.send_message("<:merror:851584410935099423> Toxicity parameter cannot be greater than 99 or less than 20.",ephemeral=True)
             await itr.response.defer()
