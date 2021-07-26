@@ -164,11 +164,9 @@ class Moderation(commands.Cog):
             pur=await itr.channel.purge(limit=count,oldest_first=False,bulk=True,after=twe,before=discord.Object(itr.id))
         if scn=="user":
             for i in itr.data["options"][0]["options"]:
-                print(i)
-                if i["name"]=="user":
+                if i["name"]=="member":
                     usid=int(i["value"])
                     break
-            print(usid)
             twe=datetime.now()-timedelta(days=14)
             await itr.response.defer(ephemeral=eph)
             lim=1
