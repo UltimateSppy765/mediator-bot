@@ -231,7 +231,7 @@ class Moderation(commands.Cog):
                 del varfour
             except:
                 ud="None"
-            print(f"Count: {count}\nText: {cont}\nUser: {ud}")
+            print(f"Count: {count}\nText: '{cont}'\nUser: {ud}")
             lim=1
             ss=0
             mlist=[]
