@@ -143,7 +143,7 @@ class Moderation(commands.Cog):
         try:
             for i in itr.data["options"][0]["options"]:
                 if i["name"]=='count':
-                    count=i.["value"]
+                    count=i["value"]
         except:
             count=20
         print(count)
