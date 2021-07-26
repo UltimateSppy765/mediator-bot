@@ -248,7 +248,7 @@ class Moderation(commands.Cog):
             async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
                 print(mes.content.lower())
                 if cont.lower() in mes.content.lower() and lim<=count:
-                    print("Matches: '{mes.content}'\nAuthor ID: {mes.author.id}")
+                    print(f"Matches: '{mes.content}'\nAuthor ID: {mes.author.id}")
                     if uchk(a=mes.author.id,b=ud)==True:
                         mlist.append(mes.id)
                         lim+=1
