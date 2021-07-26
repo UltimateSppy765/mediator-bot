@@ -148,14 +148,22 @@ class Moderation(commands.Cog):
             del varone
         except:
             count=20
+        try:
+            for i in itr.data["options"][0]["options"]:
+                if i["name"]=='ephemeral':
+                    eph=i["value"]
+            vartwo=f"Ephemeral? {eph}"
+            del vartwo
+        except:
+            eph=False
         if count>200 or count<1:
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
         if scn=="off":
-            await itr.response.defer()
+            await itr.response.defer(ephemeral=eph)
             twe=datetime.now()-timedelta(days=14)
             pur=await itr.channel.purge(limit=count,oldest_first=False,bulk=True,after=twe,before=discord.Object(itr.id))
         if scn=="user":
-            await itr.response.defer()
+            await itr.response.defer(ephemeral=eph)
             usid=int(itr.data["options"][0]["options"][0]["value"])
             twe=datetime.now()-timedelta(days=14)
             lim=1
@@ -180,13 +188,13 @@ class Moderation(commands.Cog):
                 for i in itr.data["options"][0]["options"]:
                     if i ["name"]=="percentage":
                         perc=i["value"]
-                vartwo=f"Percentage? {perc}"
-                del vartwo
+                varthree=f"Percentage? {perc}"
+                del varthree
             except:
                 perc=95
             if perc>99 or perc<20:
                 return await itr.response.send_message("<:merror:851584410935099423> Toxicity parameter cannot be greater than 99 or less than 20.",ephemeral=True)
-            await itr.response.defer()
+            await itr.response.defer(ephemeral=eph)
             twe=datetime.now()-timedelta(days=14)
             lim=1
             ss=0
@@ -208,7 +216,7 @@ class Moderation(commands.Cog):
         s='s' if len(pur)!=1 else ''
         return await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
         if scn=="hastext":
-            await itr.response.defer()
+            await itr.response.defer(ephemeral=eph)
             cont=itr.data["options"][0]["options"][0]["value"]
             twe=datetime.now()-timedelta(days=14)
             lim=1
