@@ -124,7 +124,40 @@ class Moderation(commands.Cog):
         pur=await ctx.channel.purge(limit=ss,before=ctx.message,after=twe,oldest_first=False,check=mchk)
         s='s' if len(pur)!=1 else ''
         await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
-        return 
+        return
+    @wipe.command()
+    @commands.bot_has_permissions(read_message_history=True,send_messages=True,manage_messages=True)
+    @commands.has_permissions(manage_messages=True)
+    @commands.guild_only()
+    async def attachments(self,ctx,count:typing.Optional[int]=20,atype:typing.Optional[str]):
+        "Wipes off messages containing (specific) attachments. Attachment types support Images, Videos, Audio or Other (Case insensitive, enter one attachment type per wipe). Leaving attachment type empty will check for message with any attachment. Checks the most recent 500 messages.\nWhen giving 2 parameters, the first must be message count."
+        if count>200 or count<1:
+            return await ctx.reply("<:merror:851584410935099423> Please enter a count between 1 and 200.")
+        atype=atype.lower()
+        if not atype in ["images","videos","audio","other"]:
+            return await ctx.reply("<:merror:851584410935099423> Please enter a valid attachment type.\nOne among: `'Images','Videos','Audio','Other'`")
+        msg=await ctx.reply("<:mwiping:851682672593731596> Wiping Messages...",mention_author=False)
+        twe=datetime.now()-timedelta(days=14)
+        lim=1
+        ss=0
+        mlist=[]
+        async for mes in ctx.channel.history(limit=500,before=ctx.message,after=twe,oldest_first=False):
+            if text.lower() in mes.content.lower() and lim<=count:
+                mlist.append(mes.id)
+                lim+=1
+            elif lim>count:
+                ss+=1
+                break
+            ss+=1
+        def mchk(m,list=mlist):
+            if m.id in list:
+                return True
+            else:
+                return False
+        pur=await ctx.channel.purge(limit=ss,before=ctx.message,after=twe,oldest_first=False,check=mchk)
+        s='s' if len(pur)!=1 else ''
+        await msg.edit(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
+        return
     async def wipeslash(self,itr):
         scn=itr.data["options"][0]["name"]
         try:
