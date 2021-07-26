@@ -141,12 +141,12 @@ class Moderation(commands.Cog):
                 missperms="Read Message History" if itr.channel.permissions_for(mem).read_message_history==False else "Manage Messages"
             return await itr.response.send_message(f"<:merror:851584410935099423> I do not have the required permissions to perform this, please check my permissions for this channel:```\n{missperms}\n```",ephemeral=True)
         try:
-            print(itr.data)
-            for i in [0,1]:
-                if itr.data["options"][0]["options"][i]["name"]=="count":
-                    count=itr.data["options"][0]["options"][i]["value"]
+            for i in itr.data["options"][0]["options"]:
+                if i["name"]=='count':
+                    count=i.["value"]
         except:
             count=20
+        print(count)
         if count>200 or count<1:
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
         if scn=="off":
@@ -176,11 +176,12 @@ class Moderation(commands.Cog):
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),bulk=True,after=twe,oldest_first=False,check=mchk)
         if scn=="perspective":
             try:
-                for i in [0,1]:
-                    if itr.data["options"][0]["options"][i]["name"]=="percentage":
-                        perc=itr.data["options"][0]["options"][i]["value"]
+                for i in itr.data["options"][0]["options"]:
+                    if i ["name"]=="percentage":
+                        perc=i["value"]
             except:
                 perc=95
+            print(perc)
             if perc>99 or perc<20:
                 return await itr.response.send_message("<:merror:851584410935099423> Toxicity parameter cannot be greater than 99 or less than 20.",ephemeral=True)
             await itr.response.defer()
