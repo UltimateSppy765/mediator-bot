@@ -231,24 +231,18 @@ class Moderation(commands.Cog):
                 del varfour
             except:
                 ud="None"
-            print(f"Count: {count}\nText: '{cont}'\nUser: {ud}")
             lim=1
             ss=0
             mlist=[]
             def uchk(a:int,b):
-                print(a)
-                print(b)
                 if b=="None":
                     return True
                 elif a==b:
                     return True
                 else:
                     return False
-            print(cont.lower())
             async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
-                print(mes.content.lower())
                 if cont.lower() in mes.content.lower() and lim<=count:
-                    print(f"Matches: '{mes.content}'\nAuthor ID: {mes.author.id}")
                     if uchk(a=mes.author.id,b=ud)==True:
                         mlist.append(mes.id)
                         lim+=1
