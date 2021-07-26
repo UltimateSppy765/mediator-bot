@@ -245,9 +245,8 @@ class Moderation(commands.Cog):
                 if cont.lower() in mes.content.lower() and lim<=count:
                     if uchk(a=mes.author.id,b=ud)==True:
                         mlist.append(mes.id)
-                    lim+=1
+                        lim+=1
                 elif lim>count:
-                    ss+=1
                     break
                 ss+=1
             def mchk(m,list=mlist):
