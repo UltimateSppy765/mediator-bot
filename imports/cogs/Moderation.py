@@ -248,7 +248,18 @@ class Moderation(commands.Cog):
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
         if scn=="hastext":
             await itr.response.defer(ephemeral=eph)
-            cont=itr.data["options"][0]["options"][0]["value"]
+            for j in itr.data["options"][0]["options"]:
+                if j["name"]=="text":
+                    cont=j["value"]
+                    break
+            try:
+                for i in itr.data["options"][0]["options"]:
+                    if i["name"]=="user":
+                        usid=i["value"]
+                varfour=f"User ID? {usid}"
+                del varfour
+            except:
+                usid=None
             twe=datetime.now()-timedelta(days=14)
             lim=1
             ss=0
