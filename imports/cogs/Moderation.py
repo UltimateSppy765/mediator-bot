@@ -163,7 +163,10 @@ class Moderation(commands.Cog):
             await itr.response.defer(ephemeral=eph)
             pur=await itr.channel.purge(limit=count,oldest_first=False,bulk=True,after=twe,before=discord.Object(itr.id))
         if scn=="user":
-            usid=int(itr.data["options"][0]["options"][0]["value"])
+            for i in itr.data["options"][0]["options"]:
+                if i["name"]=="user":
+                    usid=int(i["value"])
+                    break
             twe=datetime.now()-timedelta(days=14)
             await itr.response.defer(ephemeral=eph)
             lim=1
@@ -218,7 +221,7 @@ class Moderation(commands.Cog):
             await itr.response.defer(ephemeral=eph)
             for j in itr.data["options"][0]["options"]:
                 if j["name"]=="text":
-                    cont=j["value"]
+                    cont=int(j["value"])
                     break
             try:
                 for i in itr.data["options"][0]["options"]:
@@ -247,6 +250,7 @@ class Moderation(commands.Cog):
                         mlist.append(mes.id)
                         lim+=1
                 elif lim>count:
+                    ss+=1
                     break
                 ss+=1
             def mchk(m,list=mlist):
