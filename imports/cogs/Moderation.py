@@ -141,6 +141,7 @@ class Moderation(commands.Cog):
                 missperms="Read Message History" if itr.channel.permissions_for(mem).read_message_history==False else "Manage Messages"
             return await itr.response.send_message(f"<:merror:851584410935099423> I do not have the required permissions to perform this, please check my permissions for this channel:```\n{missperms}\n```",ephemeral=True)
         try:
+            print(itr.data)
             for i in [0,1]:
                 if itr.data["options"][0]["options"][i]["name"]=="count":
                     count=itr.data["options"][0]["options"][i]["value"]
