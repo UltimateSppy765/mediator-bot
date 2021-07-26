@@ -163,7 +163,7 @@ class Moderation(commands.Cog):
         try:
             perms=itr.channel.permissions_for(itr.user).manage_messages
         except:
-            return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages.",ephemeral=True)
+            return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages/Channels that I don't have the permission to view in.",ephemeral=True)
         if perms==False:
             return await itr.response.send_message("<:merror:851584410935099423> You cannot use this command.",ephemeral=True)
         mem=itr.guild.get_member(itr.application_id)
@@ -192,13 +192,13 @@ class Moderation(commands.Cog):
         if count>200 or count<1:
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
         if scn=="off":
-            await itr.response.defer(ephemeral=eph)
             twe=datetime.now()-timedelta(days=14)
+            await itr.response.defer(ephemeral=eph)
             pur=await itr.channel.purge(limit=count,oldest_first=False,bulk=True,after=twe,before=discord.Object(itr.id))
         if scn=="user":
-            await itr.response.defer(ephemeral=eph)
             usid=int(itr.data["options"][0]["options"][0]["value"])
             twe=datetime.now()-timedelta(days=14)
+            await itr.response.defer(ephemeral=eph)
             lim=1
             ss=0
             mlist=[]
@@ -227,8 +227,8 @@ class Moderation(commands.Cog):
                 perc=95
             if perc>99 or perc<20:
                 return await itr.response.send_message("<:merror:851584410935099423> Toxicity parameter cannot be greater than 99 or less than 20.",ephemeral=True)
-            await itr.response.defer(ephemeral=eph)
             twe=datetime.now()-timedelta(days=14)
+            await itr.response.defer(ephemeral=eph)
             lim=1
             ss=0
             mlist=[]
@@ -247,6 +247,7 @@ class Moderation(commands.Cog):
                     return False
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
         if scn=="hastext":
+            twe=datetime.now()-timedelta(days=14)
             await itr.response.defer(ephemeral=eph)
             for j in itr.data["options"][0]["options"]:
                 if j["name"]=="text":
@@ -260,12 +261,18 @@ class Moderation(commands.Cog):
                 del varfour
             except:
                 usid=None
-            twe=datetime.now()-timedelta(days=14)
             lim=1
             ss=0
             mlist=[]
+            def uchk(a:int,b):
+                if b is None:
+                    return True
+                elif a==b:
+                    return True
+                else:
+                    return False
             async for mes in itr.channel.history(limit=500,before=discord.Object(itr.id),after=twe,oldest_first=False):
-                if cont.lower() in mes.content.lower() and lim<=count:
+                if cont.lower() in mes.content.lower() and uchk(a=mes.author.id,b=usid)==True and lim<=count:
                     mlist.append(mes.id)
                     lim+=1
                 elif lim>count:
