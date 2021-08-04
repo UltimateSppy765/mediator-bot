@@ -129,6 +129,7 @@ class Moderation(commands.Cog):
         scn=itr.data["options"][0]["name"]
         try:
             guildid=itr.guild_id
+            print(guildid)
             del guildid
         except:
             return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages/Channels that I don't have the permission to view in.",ephemeral=True)
