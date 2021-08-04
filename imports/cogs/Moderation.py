@@ -128,7 +128,7 @@ class Moderation(commands.Cog):
     async def wipeslash(self,itr):
         scn=itr.data["options"][0]["name"]
         try:
-            perms=itr.channel.permissions_for(itr.user).manage_messages
+            perms=itr.permissions.manage_messages
         except:
             return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages/Channels that I don't have the permission to view in.",ephemeral=True)
         if perms==False:
@@ -257,7 +257,7 @@ class Moderation(commands.Cog):
                     return False
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
         s='s' if len(pur)!=1 else ''
-        return await itr.followup.send(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
+        return await itr.edit_original_message(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
     
 def setup(client):
     client.add_cog(Moderation(client))
