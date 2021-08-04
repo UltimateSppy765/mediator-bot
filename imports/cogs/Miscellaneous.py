@@ -11,6 +11,8 @@ class Miscellaneous(commands.Cog):
         if itr.type==discord.InteractionType.application_command:
             if itr.data["name"]=="ping":
                 await itr.response.send_message(f"Bot ping is `{round(self.client.latency*1000)}ms`.",ephemeral=True)
+            elif itr.data["name"]=="toxicitycheck":
+                await toxicchk(itr=itr)
     
     @commands.command()
     async def ping(self,ctx):
