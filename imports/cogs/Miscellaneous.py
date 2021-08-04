@@ -36,6 +36,8 @@ class Miscellaneous(commands.Cog):
         if score>=80:
             text=f"||{text}||"
         desc=f"**Text you input:** {text}\n__Toxicity Score:__```\n{score}%\n```"
+        if score==50:
+            desc=desc+"**__Note:__** The API might've failed to determine a value for the given text, so it's toxicity percentage is set to `50%`" 
         embed1=discord.Embed(title=":test_tube: Toxicity Check",description=desc,colour=3092791)
         return await itr.edit_original_message(embed=embed1)
 
