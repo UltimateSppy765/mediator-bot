@@ -190,7 +190,7 @@ class Moderation(commands.Cog):
         if scn=="perspective":
             try:
                 for i in itr.data["options"][0]["options"]:
-                    if i ["name"]=="percentage":
+                    if i["name"]=="percentage":
                         perc=i["value"]
                 varthree=f"Percentage? {perc}"
                 del varthree
