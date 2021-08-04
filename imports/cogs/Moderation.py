@@ -127,21 +127,19 @@ class Moderation(commands.Cog):
         return
     async def wipeslash(self,itr):
         scn=itr.data["options"][0]["name"]
-        try:
-            guildid=itr.guild_id
-            print(guildid)
-            del guildid
-        except:
-            return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages/Channels that I don't have the permission to view in.",ephemeral=True)
+        if itr.guild_id is None:
+            return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages.",ephemeral=True)
         perms=itr.permissions.manage_messages
         if perms==False:
             return await itr.response.send_message("<:merror:851584410935099423> You cannot use this command.",ephemeral=True)
         mem=itr.guild.get_member(itr.application_id)
-        if itr.channel.permissions_for(mem).manage_messages==False or itr.channel.permissions_for(mem).read_message_history==False:
-            if itr.channel.permissions_for(self.user).manage_messages==False and itr.channel.permissions_for(mem).read_message_history==False:
+        pemr=itr.channel.permissions_for(mem).read_message_history
+        pemm=itr.channel.permissions_for(mem).manage_messages
+        if pemr==False or pemm==False:
+            if pemm==False and pemr==False:
                 missperms="Read Message History\nManage Messages"
             else:
-                missperms="Read Message History" if itr.channel.permissions_for(mem).read_message_history==False else "Manage Messages"
+                missperms="Read Message History" if pemr==False else "Manage Messages"
             return await itr.response.send_message(f"<:merror:851584410935099423> I do not have the required permissions to perform this, please check my permissions for this channel:```\n{missperms}\n```",ephemeral=True)
         try:
             for i in itr.data["options"][0]["options"]:
