@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from imports.modules.perspective import getscore
 
 class Miscellaneous(commands.Cog):
     def __init__(self,client):
@@ -15,6 +16,20 @@ class Miscellaneous(commands.Cog):
     async def ping(self,ctx):
         "Shows bot latency."
         await ctx.reply(f"Bot ping is `{round(self.client.latency*1000)}ms`.",mention_author=False)
+
+    async def toxicchk(itr):
+        try:
+            for k in [0,1]:
+                if itr.data["options"][i]["name"]=="hidden":
+                    hd=itr.data["options"][i]["value"]
+        except:
+            hd=False
+        await itr.defer(ephemeral=hd)
+        for i in [0,1]:
+            if itr.data["options"][i]["name"]=="text":
+                text=itr.data["options"][i]["value"]
+        score=getscore(text)
+        
 
 def setup(client):
     client.add_cog(Miscellaneous(client))
