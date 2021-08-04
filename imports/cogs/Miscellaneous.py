@@ -24,7 +24,7 @@ class Miscellaneous(commands.Cog):
                     hd=itr.data["options"][i]["value"]
         except:
             hd=False
-        await itr.defer(ephemeral=hd)
+        await itr.response.defer(ephemeral=hd)
         for i in [0,1]:
             if itr.data["options"][i]["name"]=="text":
                 text=itr.data["options"][i]["value"]
