@@ -21,15 +21,17 @@ class Miscellaneous(commands.Cog):
 
     async def toxicchk(self,itr):
         try:
-            for k in [0,1]:
-                if itr.data["options"][i]["name"]=="hidden":
-                    hd=itr.data["options"][i]["value"]
+            for k in itr.data["options"]:
+                if k["name"]=="hidden":
+                    hd=k["value"]
+            varone=f"Ephemeral? {hd}"
+            del varone
         except:
             hd=False
         await itr.response.defer(ephemeral=hd)
-        for i in [0,1]:
-            if itr.data["options"][i]["name"]=="text":
-                text=itr.data["options"][i]["value"]
+        for i in itr.data["options"]:
+            if i["name"]=="text":
+                text=i["value"]
         score=getscore(text)
         if score>=80:
             text=f"||{text}||"
