@@ -12,24 +12,24 @@ class Miscellaneous(commands.Cog):
             if itr.data["name"]=="ping":
                 await itr.response.send_message(f"Bot ping is `{round(self.client.latency*1000)}ms`.",ephemeral=True)
             elif itr.data["name"]=="toxicitycheck":
-                await self.toxicchk(ir=itr)
+                await self.toxicchk(itr=itr)
     
     @commands.command()
     async def ping(self,ctx):
         "Shows bot latency."
         await ctx.reply(f"Bot ping is `{round(self.client.latency*1000)}ms`.",mention_author=False)
 
-    async def toxicchk(ir):
+    async def toxicchk(self,itr):
         try:
             for k in [0,1]:
-                if ir.data["options"][i]["name"]=="hidden":
-                    hd=ir.data["options"][i]["value"]
+                if itr.data["options"][i]["name"]=="hidden":
+                    hd=itr.data["options"][i]["value"]
         except:
             hd=False
-        await ir.response.defer(ephemeral=hd)
+        await itr.response.defer(ephemeral=hd)
         for i in [0,1]:
-            if ir.data["options"][i]["name"]=="text":
-                text=ir.data["options"][i]["value"]
+            if itr.data["options"][i]["name"]=="text":
+                text=itr.data["options"][i]["value"]
         score=getscore(text)
         if score>=80:
             text=f"||{text}||"
