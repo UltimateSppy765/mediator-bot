@@ -128,9 +128,11 @@ class Moderation(commands.Cog):
     async def wipeslash(self,itr):
         scn=itr.data["options"][0]["name"]
         try:
-            perms=itr.permissions.manage_messages
+            guildid=itr.guild_id
+            del guildid
         except:
             return await itr.response.send_message("<:merror:851584410935099423> This command cannot be used in Direct Messages/Channels that I don't have the permission to view in.",ephemeral=True)
+        perms=itr.permissions.manage_messages
         if perms==False:
             return await itr.response.send_message("<:merror:851584410935099423> You cannot use this command.",ephemeral=True)
         mem=itr.guild.get_member(itr.application_id)
