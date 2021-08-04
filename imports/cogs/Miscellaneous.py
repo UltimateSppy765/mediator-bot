@@ -37,7 +37,7 @@ class Miscellaneous(commands.Cog):
             text=f"||{text}||"
         desc=f"**Text you input:** {text}\n__Toxicity Score:__```\n{score}%\n```"
         embed1=discord.Embed(title=":test_tube: Toxicity Check",description=desc,colour=3092791)
-        return await ir.edit_original_message(embed=embed1)
+        return await itr.edit_original_message(embed=embed1)
 
 def setup(client):
     client.add_cog(Miscellaneous(client))
