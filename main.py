@@ -2,7 +2,7 @@ import os,discord,traceback
 from discord.ext import commands
 
 coggs=["Moderation","Miscellaneous"] 
-client=commands.Bot(command_prefix="!",activity=discord.Activity(type=discord.ActivityType.watching, name="your messages!",allowed_mentions=discord.AllowedMentions(roles=False)))
+client=commands.Bot(command_prefix="shit",activity=discord.Activity(type=discord.ActivityType.watching, name="your messages!",allowed_mentions=discord.AllowedMentions(roles=False)))
 
 @client.event
 async def on_ready():
