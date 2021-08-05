@@ -8,7 +8,7 @@ class Wipedone(discord.ui.View):
         super().__init__(timeout=5)
 
     @discord.ui.button(label="Got it!",style=discord.ButtonStyle.green)
-    async def wipegotit(self,btn:discord.ui.Button,itr:discord.Interaction)
+    async def wipegotit(self,btn:discord.ui.Button,itr:discord.Interaction):
         await itr.delete_original_message()
 
     async on_timeout(self):
