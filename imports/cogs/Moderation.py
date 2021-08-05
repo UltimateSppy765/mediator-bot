@@ -271,7 +271,9 @@ class Moderation(commands.Cog):
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
         s='s' if len(pur)!=1 else ''
         await itr.edit_original_message(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.",view=view)
-        view.message=await itr.original_message() if eph==False
+        if eph==False:
+            view.message=await itr.original_message()
+        return
 
 def setup(client):
     client.add_cog(Moderation(client))
