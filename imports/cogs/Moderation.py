@@ -9,7 +9,7 @@ class Wipedone(discord.ui.View):
 
     @discord.ui.button(label="Got it!",style=discord.ButtonStyle.green)
     async def wipegotit(self,btn:discord.ui.Button,itr:discord.Interaction):
-        await itr.delete_original_message()
+        await self.message.delete()
 
     async def on_timeout(self):
         await self.message.edit(view=None)
