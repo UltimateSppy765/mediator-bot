@@ -11,7 +11,7 @@ class Wipedone(discord.ui.View):
     async def wipegotit(self,btn:discord.ui.Button,itr:discord.Interaction):
         await itr.delete_original_message()
 
-    async on_timeout(self):
+    async def on_timeout(self):
         await self.message.edit(view=None)
 
 class Moderation(commands.Cog):
