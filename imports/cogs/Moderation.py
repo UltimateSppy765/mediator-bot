@@ -3,6 +3,17 @@ from discord.ext import commands
 from datetime import datetime,timedelta
 from imports.modules import perspective
 
+class Wipedone(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=5)
+
+    @discord.ui.button(label="Got it!",style=discord.ButtonStyle.green)
+    async def wipegotit(self,btn:discord.ui.Button,itr:discord.Interaction)
+        await itr.delete_original_message()
+
+    async on_timeout(self):
+        await self.message.edit(view=None)
+
 class Moderation(commands.Cog):
     def __init__(self,client):
         self.client=client
@@ -159,6 +170,7 @@ class Moderation(commands.Cog):
             eph=False
         if count>200 or count<1:
             return await itr.response.send_message("<:merror:851584410935099423> Please enter a count between 1 and 200.",ephemeral=True)
+        view=Wipedone() if eph==False else None
         if scn=="off":
             twe=datetime.now()-timedelta(days=14)
             await itr.response.defer(ephemeral=eph)
@@ -258,7 +270,8 @@ class Moderation(commands.Cog):
                     return False
             pur=await itr.channel.purge(limit=ss,before=discord.Object(itr.id),after=twe,oldest_first=False,bulk=True,check=mchk)
         s='s' if len(pur)!=1 else ''
-        return await itr.edit_original_message(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.")
-    
+        await itr.edit_original_message(content=f"<:mwipeyay:851572058382925866> Successfully wiped {len(pur)} message{s}." if len(pur)>0 else "<:mno:851569517242351616> No messages were wiped.",view=view)
+        view.message=await itr.original_message() if eph==False
+
 def setup(client):
     client.add_cog(Moderation(client))
