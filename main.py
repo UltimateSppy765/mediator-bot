@@ -1,8 +1,9 @@
-import os,discord,traceback
+import os,traceback
+import disnake as discord
 from discord.ext import commands
 
 coggs=["Moderation","Miscellaneous"] 
-client=commands.Bot(command_prefix="shit ",activity=discord.Activity(type=discord.ActivityType.watching, name="your messages!",allowed_mentions=discord.AllowedMentions(roles=False)))
+client=commands.Bot(sync_commands=False,command_prefix="!",activity=discord.Activity(type=discord.ActivityType.watching,name="your messages!",allowed_mentions=discord.AllowedMentions(roles=False)))
 
 @client.event
 async def on_ready():
