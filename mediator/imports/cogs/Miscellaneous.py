@@ -3,6 +3,7 @@ from disnake.ext import commands
 from imports.modules.perspective import getscore
 
 class Miscellaneous(commands.Cog):
+    """Miscellaneous commands."""
     def __init__(self,client):
         self.client=client
 
