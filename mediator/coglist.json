@@ -1,0 +1,9 @@
+{
+    "cog_list": [
+        {
+            "name": "Miscellaneous",
+            "description": "Miscellaneous commands.",
+            "path": "imports.cogs.Miscellaneous"
+        }
+    ]
+}
