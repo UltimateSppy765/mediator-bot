@@ -1,2 +1,2 @@
-git+git://github.com/Rapptz/discord.py.git@master
+disnake
 google-api-python-client
