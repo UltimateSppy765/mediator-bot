@@ -7,4 +7,4 @@ class Miscellaneous(commands.Cog):
         self.client=client
 
 def setup(client):
-    client.add_cog()
+    client.add_cog(Miscellaneous(client))
