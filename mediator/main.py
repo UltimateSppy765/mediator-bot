@@ -3,7 +3,7 @@ import disnake as discord
 from imports import cogfunc
 from disnake.ext import commands
 
-client=commands.Bot(command_prefix='!',sync_commands=False,activity=discord.Activity(type=discord.ActivityType.watching,name='your messages!'),allowed_mentions=discord.AllowedMentions(roles=False))
+client=commands.Bot(command_prefix='!',sync_commands=False,activity=discord.Activity(type=discord.ActivityType.watching,name="your messages!",allowed_mentions=discord.AllowedMentions(roles=False)))
 
 jsonfile=open('coglist.json')
 data=json.load(jsonfile)
