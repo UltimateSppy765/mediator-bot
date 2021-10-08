@@ -5,7 +5,7 @@ from disnake.ext import commands
 
 client=commands.Bot(command_prefix='!',sync_commands=False,activity=discord.Activity(type=discord.ActivityType.watching,name="your messages!",allowed_mentions=discord.AllowedMentions(roles=False)))
 
-jsonfile=open('coglist.json')
+jsonfile=open('mediator/coglist.json')
 data=json.load(jsonfile)
 jsonfile.close()
 
