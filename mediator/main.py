@@ -38,7 +38,10 @@ async def acfunc(itr,string:str):
 async def loadedcogs(itr):
     cogstr=""
     maps=client.cogs
-    for i in list(maps):
+    cglist=list(maps)
+    if cglist==[]:
+        return await itr.response.send_message(':gear: No cogs are loaded at the moment.',ephemeral=True)
+    for i in cglist:
         cogstr=cogstr+f"{i} - {inspect.getfile(maps[i].__class__)}\n"
     e1=discord.Embed(description=f"```\n{cogstr}```",color=discord.Color(3092791))
     await itr.response.send_message(content=":scroll: Here are the cogs currently loaded:",embed=e1,ephemeral=True)
