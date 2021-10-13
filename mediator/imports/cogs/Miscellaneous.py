@@ -12,7 +12,7 @@ class Miscellaneous(commands.Cog):
         """Shows bot ping/latency."""
         await itr.response.send_message(f'Bot latency is `{round(self.client.latency*1000)}ms`.',ephemeral=True)
 
-    @command.slash_command()
+    @commands.slash_command()
     async def toxicitycheck(self,itr,text:str,hidden:bool=True):
         await itr.response.defer(ephemeral=hidden)
         text=text.strip()
