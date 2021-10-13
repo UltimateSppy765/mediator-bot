@@ -50,7 +50,7 @@ async def loadedcogs(itr):
 async def listcogs(itr):
     lst=cogfunc.getcogs()
     if lst==[]:
-    return await itr.response.send_message(':gear: No cogs are specified in the config file.',ephemeral=True)
+        return await itr.response.send_message(':gear: No cogs are specified in the config file.',ephemeral=True)
     cogstr=""
     for i in lst:
         cogstr=cogstr+f"• {i['name']} ({i['path']}) - {i['description']}\n"
