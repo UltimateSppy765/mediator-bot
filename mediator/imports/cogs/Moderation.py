@@ -61,7 +61,8 @@ class Moderation(commands.Cog):
         view=Wipedone() if not ephemeral else None
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not ephemeral:
-            view.message=await itr.get_original_message()
+            view.message=await itr.original_message()
+        return
 
 def setup(client):
     client.add_cog(Moderation(client))
