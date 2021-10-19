@@ -59,7 +59,7 @@ class Moderation(commands.Cog):
         twe=datetime.now()-timedelta(days=14)
         pur=await itr.channel.purge(limit=count,before=discord.Object(itr.id),after=twe,bulk=True,oldest_first=False)
         view=Wipedone() if not ephemeral else None
-        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{s}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
+        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not ephemeral:
             view.message=await itr.get_original_message()
 
