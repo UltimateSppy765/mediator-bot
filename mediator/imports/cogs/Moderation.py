@@ -9,7 +9,7 @@ class Moderation(commands.Cog):
     @commands.bot_has_permissions(read_message_history=True,manage_messages=True)
     @commands.slash_command()
     async def wipe(self,itr):
-        print(itr.options)
+        print(itr.filled_options)
         pass
 
     @wipe.sub_command()
