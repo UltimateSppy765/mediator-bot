@@ -4,7 +4,7 @@ from imports import cogfunc
 from disnake.ext import commands
 
 intentss=discord.Intents(guilds=True,members=False,bans=True,emojis=False,integrations=False,webhooks=False,invites=False,voice_states=False,presences=False,messages=True,typing=False)
-client=commands.Bot(command_prefix='!',sync_commands=False,activity=discord.Activity(type=discord.ActivityType.watching,name='your messages!',intents=intentss,allowed_mentions=discord.AllowedMentions(roles=False))
+client=commands.Bot(command_prefix='!',sync_commands=False,activity=discord.Activity(type=discord.ActivityType.watching,name='your messages!'),intents=intentss,allowed_mentions=discord.AllowedMentions(roles=False))
 
 with open('mediator/coglist.json','r') as file:
     data=json.load(file)
