@@ -27,8 +27,10 @@ class Moderation(commands.Cog):
         elif isinstance(error,commands.BotMissingPermissions):
             strr=''
             for i in error.missing_permissions:
-                strr=strr+f'{i}\n'
-            return await itr.response.send_message(f':x:The bot does not have the following permissions in this channel to run this command:```\n{strr}```',ephemeral=True)
+                i=i.replace('_',' ')
+                i=i.title()
+                strr=strr+f'• {i}\n'
+            return await itr.response.send_message(f':x: The bot does not have the following permissions in this channel to run this command:```\n{strr}```',ephemeral=True)
 
     @wipe.sub_command()
     async def off(self,itr,count:int=20,ephemeral:bool=False):
