@@ -9,7 +9,7 @@ class Moderation(commands.Cog):
     @commands.bot_has_permissions(read_message_history=True,manage_messages=True)
     @commands.slash_command()
     async def wipe(self,itr):
-        keys=itr.options.keys()
+        keys=list(itr.options.keys())
         try:
             count=itr.options[keys[0]]['count']
         except KeyError:
