@@ -20,6 +20,16 @@ class Moderation(commands.Cog):
             else:
                 pass
 
+    @wipe.error
+    async def wipe_error(self,itr,error):
+        if isinstance(error,commands.MissingPermissions):
+            return await itr.response.send_message(':x: You need to have the `Manage Messages` permission to run this command.',ephemeral=True)
+        elif isinstance(error,commands.BotMissingPermissions):
+            strr=''
+            for i in error.missing_perms:
+                strr=strr+f'{i}\n'
+            return await itr.response.send_message(f':x:The bot does not have the following permissions in this channel to run this command:```\n{strr}```',ephemeral=True)
+
     @wipe.sub_command()
     async def off(self,itr,count:int=20,ephemeral:bool=False):
         print("off")
