@@ -26,7 +26,7 @@ class Moderation(commands.Cog):
             return await itr.response.send_message(':x: You need to have the `Manage Messages` permission to run this command.',ephemeral=True)
         elif isinstance(error,commands.BotMissingPermissions):
             strr=''
-            for i in error.missing_perms:
+            for i in error.missing_permissions:
                 strr=strr+f'{i}\n'
             return await itr.response.send_message(f':x:The bot does not have the following permissions in this channel to run this command:```\n{strr}```',ephemeral=True)
 
