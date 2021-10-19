@@ -6,7 +6,7 @@ class Moderation(commands.Cog):
         self.client=client
 
     @commands.has_permissions(manage_messages=True)
-    @commands.bot.has_permissions(read_message_history=True,manage_messages=True)
+    @commands.bot_has_permissions(read_message_history=True,manage_messages=True)
     @commands.slash_command()
     async def wipe(self,itr):
         print(itr.options)
