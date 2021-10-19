@@ -1,5 +1,17 @@
 import disnake as discord
+from datetime import datetime,timedelta
 from disnake.ext import commands
+
+class Wipedone(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=5)
+
+    @discord.ui.button(label="Got it!",style=discord.ButtonStyle.green)
+    async def wipegotit(self,btn:discord.ui.Button,itr:discord.Interaction):
+        await self.message.delete()
+
+    async def on_timeout(self):
+        await self.message.edit(view=None)
 
 class Moderation(commands.Cog):
     def __init__(self,client):
@@ -31,10 +43,25 @@ class Moderation(commands.Cog):
                 i=i.title()
                 strr=strr+f'• {i}\n'
             return await itr.response.send_message(f':x: The bot does not have the following permissions in this channel to run this command:```\n{strr}```',ephemeral=True)
+        elif isinstance(error,disnake.HTTPException):
+            if isinstance(error,disnake.Forbidden):
+                text=f':x: The bot is forbidden to perform some actions involved in this command. ```\n{error.text}\n```'
+            else:
+                text=f':x: The bot ran into an error while trying to execute this command. ```\n{error.text}\n```'
+            if itr.response.is_done():
+                return await itr.edit_original_message(text)
+            else:
+                return await itr.response.send_message(text,ephemeral=True)
 
     @wipe.sub_command()
     async def off(self,itr,count:int=20,ephemeral:bool=False):
-        print("off")
+        await itr.response.defer(ephemeral=ephemeral)
+        twe=datetime.now()-timedelta(days=14)
+        pur=await itr.channel.purge(limit=count,before=discord.Object(itr.id),after=twe,bulk=True,oldest_first=False)
+        view=Wipedone() if not ephemeral else None
+        await itr.edit_original_message(content=f" Successfully wiped {len(pur)} message{s}." if len(pur)>0 else " No messages were wiped.",view=view)
+        if not ephemeral:
+            view.message=await itr.get_original_message()
 
 def setup(client):
     client.add_cog(Moderation(client))
