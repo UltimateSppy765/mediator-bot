@@ -16,7 +16,7 @@ class WipeChecks():
     def hastextcheck(self,m):
         if self.counter>self.count:
             return False
-        if m.content.lower()==self.textchk:
+        if self.textchk in m.content.lower():
             if self.user_id:
                 if self.user_id==m.author.id:
                     self.counter+=1
