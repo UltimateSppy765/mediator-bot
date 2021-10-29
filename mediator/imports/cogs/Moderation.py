@@ -103,7 +103,7 @@ class Moderation(commands.Cog):
     async def hastext(self,itr,text:str,user:discord.User=None,count:int=20,hidden:bool=False):
         await itr.response.defer(ephemeral=hidden)
         chk=WipeChecks()
-        chk.textchk=text.lower()
+        chk.textchk=text.strip().lower()
         chk.count=count
         if user:
             chk.user_id=user.id
