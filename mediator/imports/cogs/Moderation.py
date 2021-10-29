@@ -2,16 +2,46 @@ import disnake as discord
 from datetime import datetime,timedelta
 from disnake.ext import commands
 
+class WipeChecks():
+    def __init__(self):
+        self.counter=1
+    
+    def usercheck(self,m):
+        if self.counter>self.count:
+            return False
+        if m.author.id==self.user_id:
+            self.counter+=1
+            return True
+
+    def hastextcheck(self,m):
+        if self.counter>self.count:
+            return False
+        if m.content.lower()==self.textchk:
+            if self.user_id:
+                if self.user_id==m.author.id:
+                    self.counter+=1
+                    return True
+                else:
+                    return False
+            else:
+                self.counter+=1
+                return True
+        else:
+            return False
+
 class Wipedone(discord.ui.View):
     def __init__(self):
+        self.responded=False
         super().__init__(timeout=5)
 
     @discord.ui.button(label="Got it!",style=discord.ButtonStyle.green)
     async def wipegotit(self,btn:discord.ui.Button,itr:discord.Interaction):
+        self.responded=True
         await self.message.delete()
 
     async def on_timeout(self):
-        await self.message.edit(view=None)
+        if not self.responded:
+            return await self.message.edit(view=None)
 
 class Moderation(commands.Cog):
     def __init__(self,client):
@@ -21,16 +51,7 @@ class Moderation(commands.Cog):
     @commands.bot_has_permissions(read_message_history=True,manage_messages=True)
     @commands.slash_command()
     async def wipe(self,itr):
-        keys=list(itr.options.keys())
-        try:
-            count=itr.options[keys[0]]['count']
-        except KeyError:
-            pass
-        else:
-            if count not in range(1,201):
-                return await itr.response.send_message(':x: The message count cannot be less than 1 or more than 200.',ephemeral=True)
-            else:
-                pass
+        pass
 
     @wipe.error
     async def wipe_error(self,itr,error):
@@ -54,13 +75,45 @@ class Moderation(commands.Cog):
                 return await itr.response.send_message(text,ephemeral=True)
 
     @wipe.sub_command()
-    async def off(self,itr,count:int=20,ephemeral:bool=False):
-        await itr.response.defer(ephemeral=ephemeral)
+    async def off(self,itr,count:int=20,hidden:bool=False):
+        await itr.response.defer(ephemeral=hidden)
         twe=datetime.now()-timedelta(days=14)
         pur=await itr.channel.purge(limit=count,before=discord.Object(itr.id),after=twe,bulk=True,oldest_first=False)
-        view=Wipedone() if not ephemeral else None
+        view=Wipedone() if not hidden else None
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
-        if not ephemeral:
+        if not hidden:
+            view.message=await itr.original_message()
+        return
+
+    @wipe.sub_command()
+    async def user(self,itr,user:discord.User,count:int=20,hidden:bool=False):
+        await itr.response.defer(ephemeral=hidden)
+        chk=WipeChecks()
+        chk.user_id=user.id
+        chk.count=count
+        twe=datetime.now()-timedelta(days=14)
+        pur=await itr.channel.purge(check=chk.usercheck,limit=500,before=discord.Object(itr.id),after=twe,bulk=True,oldest_first=False)
+        view=Wipedone() if not hidden else None
+        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
+        if not hidden:
+            view.message=await itr.original_message()
+        return
+
+    @wipe.sub_command()
+    async def hastext(self,itr,text:str,user:discord.User=None,count:int=20,hidden:bool=False):
+        await itr.response.defer(ephemeral=hidden)
+        chk=WipeChecks()
+        chk.textchk=text.lower()
+        chk.count=count
+        if user:
+            chk.user_id=user.id
+        else:
+            chk.user_id=None
+        twe=datetime.now()-timedelta(days=14)
+        pur=await itr.channel.purge(check=chk.hastextcheck,limit=500,before=discord.Object(itr.id),after=twe,bulk=True,oldest_first=False)
+        view=Wipedone() if not hidden else None
+        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
+        if not hidden:
             view.message=await itr.original_message()
         return
 
