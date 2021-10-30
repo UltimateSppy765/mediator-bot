@@ -76,9 +76,10 @@ class Moderation(commands.Cog):
 
     @wipe.sub_command()
     async def off(self,itr,count:int=20,hidden:bool=False):
+        itrtime=datetime.now()
         await itr.response.defer(ephemeral=hidden)
         twe=datetime.now()-timedelta(days=14)
-        pur=await itr.channel.purge(limit=count,before=discord.Object(itr.id),after=twe,bulk=True,oldest_first=False)
+        pur=await itr.channel.purge(limit=count,before=itrtime,after=twe,bulk=True,oldest_first=False)
         view=Wipedone() if not hidden else None
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not hidden:
@@ -87,12 +88,13 @@ class Moderation(commands.Cog):
 
     @wipe.sub_command()
     async def user(self,itr,user:discord.User,count:int=20,hidden:bool=False):
+        itrtime=datetime.now()
         await itr.response.defer(ephemeral=hidden)
         chk=WipeChecks()
         chk.user_id=user.id
         chk.count=count
         twe=datetime.now()-timedelta(days=14)
-        pur=await itr.channel.purge(check=chk.usercheck,limit=500,before=discord.Object(itr.id),after=twe,bulk=True,oldest_first=False)
+        pur=await itr.channel.purge(check=chk.usercheck,limit=500,before=itrtime,after=twe,bulk=True,oldest_first=False)
         view=Wipedone() if not hidden else None
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not hidden:
@@ -101,6 +103,7 @@ class Moderation(commands.Cog):
 
     @wipe.sub_command()
     async def hastext(self,itr,text:str,user:discord.User=None,count:int=20,hidden:bool=False):
+        itrtime=datetime.now()
         await itr.response.defer(ephemeral=hidden)
         chk=WipeChecks()
         chk.textchk=text.strip().lower()
@@ -110,7 +113,7 @@ class Moderation(commands.Cog):
         else:
             chk.user_id=None
         twe=datetime.now()-timedelta(days=14)
-        pur=await itr.channel.purge(check=chk.hastextcheck,limit=500,before=discord.Object(itr.id),after=twe,bulk=True,oldest_first=False)
+        pur=await itr.channel.purge(check=chk.hastextcheck,limit=500,before=itrtime,after=twe,bulk=True,oldest_first=False)
         view=Wipedone() if not hidden else None
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not hidden:
