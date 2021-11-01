@@ -39,7 +39,7 @@ class Wipedone(discord.ui.View):
         if itr.user.id!=self.message.interaction.user.id:
             return await itr.response.send_message(':x: You cannot use a button on a command invoked by someone else.',ephemeral=True)
         self.responded=True
-        await self.message.delete()
+        await self.followup.delete_message(self.message.id)
 
     async def on_timeout(self):
         if not self.responded:
@@ -86,6 +86,7 @@ class Moderation(commands.Cog):
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not hidden:
             view.message=await itr.original_message()
+            view.followup=itr.followup
         return
 
     @wipe.sub_command()
@@ -101,6 +102,7 @@ class Moderation(commands.Cog):
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not hidden:
             view.message=await itr.original_message()
+            view.followup=itr.followup
         return
 
     @wipe.sub_command()
@@ -120,6 +122,7 @@ class Moderation(commands.Cog):
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not hidden:
             view.message=await itr.original_message()
+            view.followup=itr.followup
         return
 
 def setup(client):
