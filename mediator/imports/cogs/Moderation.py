@@ -49,7 +49,7 @@ class Moderation(commands.Cog):
     def __init__(self,client):
         self.client=client
 
-    @commands.has_permissions(manage_messages=True)
+    @commands.has_permissions(manage_messages=True,read_message_history=True)
     @commands.bot_has_permissions(read_message_history=True,manage_messages=True)
     @commands.slash_command()
     async def wipe(self,itr):
@@ -58,7 +58,7 @@ class Moderation(commands.Cog):
     @wipe.error
     async def wipe_error(self,itr,error):
         if isinstance(error,commands.MissingPermissions):
-            return await itr.response.send_message(':x: You need to have the `Manage Messages` permission to run this command.',ephemeral=True)
+            return await itr.response.send_message(':x: You need to have the `Manage Messages` and `Read Message History` permissions in this channel to use this command.',ephemeral=True)
         elif isinstance(error,commands.BotMissingPermissions):
             strr=''
             for i in error.missing_permissions:
