@@ -36,6 +36,8 @@ class Wipedone(discord.ui.View):
 
     @discord.ui.button(label="Got it!",style=discord.ButtonStyle.green)
     async def wipegotit(self,btn:discord.ui.Button,itr:discord.Interaction):
+        if itr.user.id!=self.message.interaction.user.id:
+            return await itr.response.send_message(':x: You cannot use a button on a command invoked by someone else.',ephemeral=True)
         self.responded=True
         await self.message.delete()
 
