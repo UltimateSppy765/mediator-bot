@@ -125,5 +125,21 @@ class Moderation(commands.Cog):
             view.followup=itr.followup
         return
 
+    @commands.has_permissions(ban_members=True)
+    @commands.bot_has_permissions(ban_members=True)
+    @commands.slash_command()
+    async def unban(self,itr,user:str):
+        return await itr.response.send_message(':x: The command does nothing yet.',ephemeral=True)
+
+    @unban.autocomplete(option_name='user')
+    async def unban_autocomp(self,):
+
+    @wipe.error
+    async def wipe_error(self,itr,error):
+        if isinstance(error,commands.MissingPermissions):
+            return await itr.response.send_message(':x: You need to have the `Ban Members` permission to use this command.',ephemeral=True)
+        elif isinstance(error,commands.BotMissingPermissions):
+            return await itr.response.send_message(':x: The bot must have the `Ban Members` permission to execute this command.',ephemeral=True)
+
 def setup(client):
     client.add_cog(Moderation(client))
