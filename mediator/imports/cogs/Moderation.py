@@ -1,3 +1,4 @@
+import aiohttp
 import disnake as discord
 from datetime import datetime,timedelta
 from disnake.ext import commands
@@ -128,14 +129,24 @@ class Moderation(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     @commands.slash_command()
-    async def unban(self,itr,user:str):
+    async def unban(self,itr,user:str,reason:str=None):
         return await itr.response.send_message(':x: The command does nothing yet.',ephemeral=True)
 
-    @unban.autocomplete(option_name='user')
-    async def unban_autocomp(self,):
+    @unban.autocomplete('user')
+    async def unban_autocomp(self,itr,string:str):
+        try:
+            await itr.guild.bans()
+            return []
+        except Exception as e:
+            if isinstance(e,disnake.Forbidden):
+                r=yield from aiohttp.request('post',f'https://discord.com/api/v9/interactions/{itr.id}/{itr.token}/callback',data=json.dumps({'type':8,'data':{'choices':[]}}))
+                await itr.followup.send(':x: The bot doesn\'t have the `Ban Members` permission needed to fetch the banned members list.',ephemeral=True)
+            elif isinstance(e,disnake.HTTPException):
+                r=yield from aiohttp.request('post',f'https://discord.com/api/v9/interactions/{itr.id}/{itr.token}/callback',data=json.dumps({'type':8,'data':{'choices':[]}}))
+                await itr.followup.send(':x: Failed to fetch the banned members list.',ephemeral=True)
 
-    @wipe.error
-    async def wipe_error(self,itr,error):
+    @unban.error
+    async def unban_error(self,itr,error):
         if isinstance(error,commands.MissingPermissions):
             return await itr.response.send_message(':x: You need to have the `Ban Members` permission to use this command.',ephemeral=True)
         elif isinstance(error,commands.BotMissingPermissions):
