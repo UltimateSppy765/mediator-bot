@@ -1,4 +1,3 @@
-import aiohttp
 import disnake as discord
 from datetime import datetime,timedelta
 from disnake.ext import commands
@@ -142,21 +141,16 @@ class Moderation(commands.Cog):
                 for i in banlist:
                     if len(list(returndict.items()))>25:
                         break
-                    returndict[f'{i.user.name}#{i.user.discriminator}']=i.user.id
+                    returndict[f'{i.user.name}#{i.user.discriminator}']=str(i.user.id)
             else:
                 for i in banlist:
                     if len(list(returndict.items()))>25:
                         break
-                    if string in i.user.name.lower():
-                        returndict[f'{i.user.name}#{i.user.discriminator}']=i.user.id
+                    if string in f'{i.user.name.lower()}#{i.user.discriminator}':
+                        returndict[f'{i.user.name}#{i.user.discriminator}']=str(i.user.id)
             return returndict
-        except Exception as e:
-            if isinstance(e,disnake.Forbidden):
-                r=yield from aiohttp.request('post',f'https://discord.com/api/v9/interactions/{itr.id}/{itr.token}/callback',data=json.dumps({'type':8,'data':{'choices':[]}}))
-                await itr.followup.send(':x: The bot doesn\'t have the `Ban Members` permission needed to fetch the banned members list.',ephemeral=True)
-            elif isinstance(e,disnake.HTTPException):
-                r=yield from aiohttp.request('post',f'https://discord.com/api/v9/interactions/{itr.id}/{itr.token}/callback',data=json.dumps({'type':8,'data':{'choices':[]}}))
-                await itr.followup.send(':x: Failed to fetch the banned members list.',ephemeral=True)
+        except:
+            return
 
     @unban.error
     async def unban_error(self,itr,error):
