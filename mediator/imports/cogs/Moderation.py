@@ -134,9 +134,22 @@ class Moderation(commands.Cog):
 
     @unban.autocomplete('user')
     async def unban_autocomp(self,itr,string:str):
+        string=string.strip().lower()
+        returndict={}
         try:
-            await itr.guild.bans()
-            return []
+            banlist=await itr.guild.bans()
+            if string=="":
+                for i in banlist:
+                    if len(list(returndict.items()))>25:
+                        break
+                    returndict[f'{i.user.name}#{i.user.discriminator}']=i.user.id
+            else:
+                for i in banlist:
+                    if len(list(returndict.items()))>25:
+                        break
+                    if string in i.user.name.lower():
+                        returndict[f'{i.user.name}#{i.user.discriminator}']=i.user.id
+            return returndict
         except Exception as e:
             if isinstance(e,disnake.Forbidden):
                 r=yield from aiohttp.request('post',f'https://discord.com/api/v9/interactions/{itr.id}/{itr.token}/callback',data=json.dumps({'type':8,'data':{'choices':[]}}))
