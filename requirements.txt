@@ -1,2 +1,2 @@
-disnake=2.2.1
+disnake
 google-api-python-client
