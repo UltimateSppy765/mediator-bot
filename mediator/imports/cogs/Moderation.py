@@ -49,8 +49,8 @@ class Moderation(commands.Cog):
     def __init__(self,client):
         self.client=client
 
-    @commands.has_permissions(manage_messages=True,read_message_history=True)
     @commands.bot_has_permissions(read_message_history=True,manage_messages=True)
+    @commands.has_permissions(manage_messages=True,read_message_history=True)
     @commands.slash_command()
     async def wipe(self,itr):
         pass
@@ -159,10 +159,32 @@ class Moderation(commands.Cog):
         elif isinstance(error,commands.BotMissingPermissions):
             return await itr.response.send_message(':x: The bot must have the `Ban Members` permission to execute this command.',ephemeral=True)
 
+    @commands.bot_has_permissions(kick_members=True)
+    @commands.has_guild_permissions(manage_messages=True)
     @commands.slash_command()
-    async def mute(self,itr,member:discord.Member,duration:str,reason:str=None):
-        await itr.response.send_message('🛠️ Work in Progress!',ephemeral=True)
-        return
+    async def mute(self,itr:discord.ApplicationCommandInteraction,member:discord.Member,duration:str,reason:str=None):
+        if member.id==itr.author.id:
+            return await itr.response.send_message(':x: You cannot mute yourself.',ephemeral=True)
+        elif member.id==itr.guild.owner_id:
+            return await itr.response.send_message(':x: You cannot mute the server owner.',ephemeral=True)
+        elif member.bot:
+            return await itr.response.send_message(':x: You cannot mute bots.',ephemeral=True)
+        elif member.guild_permissions.administrator:
+            return await itr.response.send_message(':x: You cannot mute a server admin.',ephemeral=True)
+        elif itr.author.id!=itr.guild.owner_id:
+            if itr.author.top_role<=member.top_role:
+                return await itr.response.send_message(':x: You cannot mute this member as you do not have a role higher than their highest role.',ephemeral=True)
+        if itr.me.top_role<=member.top_role:
+            return await itr.response.send_message(':x: I cannot mute this member because I do not have a role higher than their highest role.',ephemeral=True)
+        await itr.response.defer(ephemeral=False)
+        return await itr.edit_original_message(content='🛠️ Work in Progress!')
+
+    @mute.error
+    async def mute_error(self,itr,error):
+        if isinstance(error,commands.MissingPermissions):
+            return await itr.response.send_message(':x: You need to have the `Manage Messages` permission in the server to use this command.',ephemeral=True)
+        elif isinstance(error,commands.BotMissingPermissions):
+            return await itr.response.send_message(':x: The bot must have the `Kick Members` permission to execute this command.',ephemeral=True)
 
 def setup(client):
     client.add_cog(Moderation(client))
