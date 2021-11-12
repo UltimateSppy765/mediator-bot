@@ -159,5 +159,10 @@ class Moderation(commands.Cog):
         elif isinstance(error,commands.BotMissingPermissions):
             return await itr.response.send_message(':x: The bot must have the `Ban Members` permission to execute this command.',ephemeral=True)
 
+    @commands.slash_command()
+    async def mute(self,itr,member:discord.Member,duration:str,reason:str=None):
+        await itr.response.send_message('🛠️ Work in Progress!',ephemeral=True)
+        return
+
 def setup(client):
     client.add_cog(Moderation(client))
