@@ -138,20 +138,20 @@ class Moderation(commands.Cog):
         returndict={}
         try:
             banlist=await itr.guild.bans()
-            if string=="":
-                for i in banlist:
-                    if len(list(returndict.items()))>25:
-                        break
-                    returndict[f'{i.user.name}#{i.user.discriminator}']=str(i.user.id)
-            else:
-                for i in banlist:
-                    if len(list(returndict.items()))>25:
-                        break
-                    if string in str(i.user).lower():
-                        returndict[str(i.user)]=str(i.user.id)
-            return returndict
         except:
             return
+        if string=="":
+            for i in banlist:
+                if len(list(returndict.items()))>25:
+                    break
+                returndict[f'{i.user.name}#{i.user.discriminator}']=str(i.user.id)
+        else:
+            for i in banlist:
+                if len(list(returndict.items()))>25:
+                    break
+                if string in str(i.user).lower():
+                    returndict[str(i.user)]=str(i.user.id)
+        return returndict
 
     @unban.error
     async def unban_error(self,itr,error):
