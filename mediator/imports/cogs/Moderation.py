@@ -147,8 +147,8 @@ class Moderation(commands.Cog):
                 for i in banlist:
                     if len(list(returndict.items()))>25:
                         break
-                    if string in f'{i.user.name.lower()}#{i.user.discriminator}':
-                        returndict[f'{i.user.name}#{i.user.discriminator}']=str(i.user.id)
+                    if string in str(i.user).lower():
+                        returndict[str(i.user)]=str(i.user.id)
             return returndict
         except:
             return
