@@ -1,4 +1,4 @@
-import durations,requests,calendar
+import os,durations,requests,calendar
 import disnake as discord
 from datetime import datetime,timedelta,timezone
 from disnake.ext import commands
@@ -189,7 +189,7 @@ class Moderation(commands.Cog):
             return await itr.response.send_message(':x: The mute duration cannot be longer than a day.',ephemeral=True)
         await itr.response.defer(ephemeral=False)
         tim=datetime.now(timezone.utc)+timedelta(seconds=mutetime)
-        r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot ODA3NTM1NjkyODEyNTE3Mzg3.YB5aOA.q33NHmi1ndZTPwhdJDTpsklgo98'},json={"communication_disabled_until":tim.isoformat()})
+        r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot {os.environ['BOT_TOKEN']}'},json={"communication_disabled_until":tim.isoformat()})
         if r.status_code==200:
             embed=discord.Embed(color=discord.Color(3092791),description=f':white_check_mark: {member.mention} was successfully muted until <t:{int(calendar.timegm(tim.utctimetuple()))}:F>.')
             if reason:
@@ -230,7 +230,7 @@ class Moderation(commands.Cog):
             return await itr.response.send_message(':x: This member is not muted.',ephemeral=True)
         else:
             await itr.response.defer()
-            r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot ODA3NTM1NjkyODEyNTE3Mzg3.YB5aOA.q33NHmi1ndZTPwhdJDTpsklgo98'},json={"communication_disabled_until":None})
+            r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot {os.environ['BOT_TOKEN']}'},json={"communication_disabled_until":None})
             if r.status_code==200:
                 embed=discord.Embed(color=discord.Color(3092791),description=f':white_check_mark: {member.mention} was successfully unmuted.')
                 if reason:
