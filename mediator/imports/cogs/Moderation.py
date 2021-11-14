@@ -1,5 +1,6 @@
+import durations,requests,calendar
 import disnake as discord
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta,timezone
 from disnake.ext import commands
 
 class WipeChecks():
@@ -162,7 +163,7 @@ class Moderation(commands.Cog):
     @commands.bot_has_permissions(kick_members=True)
     @commands.has_guild_permissions(manage_messages=True)
     @commands.slash_command()
-    async def mute(self,itr:discord.ApplicationCommandInteraction,member:discord.Member,duration:str,reason:str=None):
+    async def mute(self,itr,member:discord.Member,duration:str,reason:str=None):
         if member.id==itr.author.id:
             return await itr.response.send_message(':x: You cannot mute yourself.',ephemeral=True)
         elif member.id==itr.guild.owner_id:
@@ -176,8 +177,26 @@ class Moderation(commands.Cog):
                 return await itr.response.send_message(':x: You cannot mute this member as you do not have a role higher than their highest role.',ephemeral=True)
         if itr.me.top_role<=member.top_role:
             return await itr.response.send_message(':x: I cannot mute this member because I do not have a role higher than their highest role.',ephemeral=True)
+        try:
+            mutetime=int(round(durations.Duration(duration.strip()).to_seconds()))
+        except:
+            return await itr.response.send_message(':x: Failed to parse time from given duration, please check it and try again.',ephemeral=True)
+        if mutetime==0:
+            return await itr.response.send_message(':x: The duration cannot be null.\n**This error could also have occurred if the time entered was invalid. If this was the case, please try again.**',ephemeral=True)
+        elif mutetime<300:
+            return await itr.response.send_message(':x: The mute duration cannot be shorter than 5 minutes.',ephemeral=True)
+        elif mutetime>86400:
+            return await itr.response.send_message(':x: The mute duration cannot be longer than a day.',ephemeral=True)
         await itr.response.defer(ephemeral=False)
-        return await itr.edit_original_message(content='🛠️ Work in Progress!')
+        tim=datetime.now(timezone.utc)+timedelta(seconds=mutetime)
+        r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot ODA3NTM1NjkyODEyNTE3Mzg3.YB5aOA.q33NHmi1ndZTPwhdJDTpsklgo98'},json={"communication_disabled_until":tim.isoformat()})
+        if r.status_code==200:
+            embed=discord.Embed(color=discord.Color(3092791),description=f':white_check_mark: {member.mention} was successfully muted until <t:{int(calendar.timegm(tim.utctimetuple()))}:F>.')
+            if reason:
+                embed.add_field(name='For reason:',value=reason.strip())
+            return await itr.edit_original_message(embed=embed)
+        else:
+            return await itr.edit_original_message(content=f':x: Failed to mute said member. ```json\n{r.json()}\n```')
 
     @mute.error
     async def mute_error(self,itr,error):
@@ -185,6 +204,49 @@ class Moderation(commands.Cog):
             return await itr.response.send_message(':x: You need to have the `Manage Messages` permission in the server to use this command.',ephemeral=True)
         elif isinstance(error,commands.BotMissingPermissions):
             return await itr.response.send_message(':x: The bot must have the `Kick Members` permission to execute this command.',ephemeral=True)
+        elif isinstance(error,commands.MemberNotFound):
+            return await itr.response.send_message(':x: This user is not in the server.',ephemeral=True)
+
+    @commands.bot_has_permissions(kick_members=True)
+    @commands.has_guild_permissions(manage_messages=True)
+    @commands.slash_command()
+    async def unmute(self,itr:discord.ApplicationCommandInteraction,member:discord.Member,reason:str=None):
+        if member.id==itr.guild.owner_id:
+            return await itr.response.send_message(':x: You cannot unmute the server owner as they are immune to mutes.',ephemeral=True)
+        elif member.bot:
+            return await itr.response.send_message(':x: You cannot unmute bots.',ephemeral=True)
+        elif member.guild_permissions.administrator:
+            return await itr.response.send_message(':x: You cannot unmute a server admin as they are immune to mutes.',ephemeral=True)
+        elif itr.author.id!=itr.guild.owner_id:
+            if itr.author.top_role<=member.top_role:
+                return await itr.response.send_message(':x: You cannot unmute this member as you do not have a role higher than their highest role.',ephemeral=True)
+        if itr.me.top_role<=member.top_role:
+            return await itr.response.send_message(':x: I cannot unmute this member because I do not have a role higher than their highest role.',ephemeral=True)
+        r=requests.get(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot ODA3NTM1NjkyODEyNTE3Mzg3.YB5aOA.q33NHmi1ndZTPwhdJDTpsklgo98'}).json()
+        if not r['communication_disabled_until']:
+            return await itr.response.send_message(':x: This member is not muted.',ephemeral=True)
+        elif datetime.fromisoformat(r['communication_disabled_until'])<datetime.now(timezone.utc):
+            requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot ODA3NTM1NjkyODEyNTE3Mzg3.YB5aOA.q33NHmi1ndZTPwhdJDTpsklgo98'},json={"communication_disabled_until":None})
+            return await itr.response.send_message(':x: This member is not muted.',ephemeral=True)
+        else:
+            await itr.response.defer()
+            r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot ODA3NTM1NjkyODEyNTE3Mzg3.YB5aOA.q33NHmi1ndZTPwhdJDTpsklgo98'},json={"communication_disabled_until":None})
+            if r.status_code==200:
+                embed=discord.Embed(color=discord.Color(3092791),description=f':white_check_mark: {member.mention} was successfully unmuted.')
+                if reason:
+                    embed.add_field(name='For reason:',value=reason.strip())
+                return await itr.edit_original_message(embed=embed)
+            else:
+                return await itr.edit_original_message(content=f':x: Failed to mute said member. ```json\n{r.json()}\n```')
+
+    @unmute.error
+    async def mute_error(self,itr,error):
+        if isinstance(error,commands.MissingPermissions):
+            return await itr.response.send_message(':x: You need to have the `Manage Messages` permission in the server to use this command.',ephemeral=True)
+        elif isinstance(error,commands.BotMissingPermissions):
+            return await itr.response.send_message(':x: The bot must have the `Kick Members` permission to execute this command.',ephemeral=True)
+        elif isinstance(error,commands.MemberNotFound):
+            return await itr.response.send_message(':x: This user is not in the server.',ephemeral=True)
 
 def setup(client):
     client.add_cog(Moderation(client))
