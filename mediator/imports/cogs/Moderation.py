@@ -226,7 +226,7 @@ class Moderation(commands.Cog):
         if not r['communication_disabled_until']:
             return await itr.response.send_message(':x: This member is not muted.',ephemeral=True)
         elif datetime.fromisoformat(r['communication_disabled_until'])<datetime.now(timezone.utc):
-            requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':'Bot '},json={"communication_disabled_until":None})
+            requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["BOT_TOKEN"]}'},json={"communication_disabled_until":None})
             return await itr.response.send_message(':x: This member is not muted.',ephemeral=True)
         else:
             await itr.response.defer()
