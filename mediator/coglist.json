@@ -11,6 +11,12 @@
             "description": "Moderation commands.",
             "path": "imports.cogs.Moderation",
             "load_on_start": true
+        },
+        {
+            "name": "Self Time Outs",
+            "description": "Self mutes for a private server.",
+            "path": "imports.cogs.SecretGuildTimeOut",
+            "load_on_start": true
         }
     ]
 }
