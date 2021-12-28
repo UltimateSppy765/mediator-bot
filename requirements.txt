@@ -1,4 +1,2 @@
-discord.py
-discord-py-slash-command
-firebase-admin
+disnake
 google-api-python-client
