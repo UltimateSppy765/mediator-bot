@@ -11,12 +11,12 @@ class SGTimeOut(commands.Cog):
     async def on_button_click(self,itr:discord.MessageInteraction):
         if itr.data.custom_id=="921448423402635274_remove_mute":
             requests.post(f'https://discord.com/api/v9/interactions/{itr.id}/{itr.token}/callback',json={"type":5,"data":{"flags":64}})
-            r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{itr.author.id}',headers={'Authorization':f'Bot {os.environ["BOT_TOKEN"]}'},json={"communication_disabled_until":None})
-            if r.status_code==200:
-                return await itr.edit_original_message(content=':white_check_mark: Cleared your `communication_disabled_until` member field.')
+            try:
+                await itr.author.timeout(duration=None)
+            except e as Exception:
+                return await itr.edit_original_message(content=f':x: Failed to clear your `communication_disabled_until` member field. ```\n{e.text}\n```')
             else:
-                return await itr.edit_original_message(content=f':x: Failed to clear your `communication_disabled_until` member field. ```json\n{r.json()}\n```')
-        return
+                return await itr.edit_original_message(content=':white_check_mark: Cleared your `communication_disabled_until` member field.')
     
     @commands.slash_command(name='self-mute')
     async def selfmute(self,itr:discord.ApplicationCommandInteraction,duration:str):
@@ -31,12 +31,12 @@ class SGTimeOut(commands.Cog):
         elif mutetime>2419200:
             return await itr.response.send_message(':x: The mute duration cannot be above 28 days (API Limitation).',ephemeral=True)
         await itr.response.defer(ephemeral=True)
-        tim=datetime.now(timezone.utc)+timedelta(seconds=mutetime)
-        r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{itr.author.id}',headers={'Authorization':f'Bot {os.environ["BOT_TOKEN"]}'},json={"communication_disabled_until":tim.isoformat()})
-        if r.status_code==200:
-            return await itr.edit_original_message(content=f":white_check_mark: Sucessfully muted you until <t:{int(calendar.timegm(tim.utctimetuple()))}:F>.")
+        try:
+           memtimeout=await itr.author.timeout(duration=mutetime)
+        except e as Exception:
+            return await itr.edit_original_message(content=f':x: Failed to mute you. ```json\n{e.text}\n```')
         else:
-            return await itr.edit_original_message(content=f':x: Failed to mute you. ```json\n{r.json()}\n```')
+            return await itr.edit_original_message(content=f":white_check_mark: Sucessfully muted you until <t:{int(calendar.timegm(memtimeout.current_timeout.utctimetuple()))}:F>.")
 
 def setup(client):
     client.add_cog(SGTimeOut(client))
