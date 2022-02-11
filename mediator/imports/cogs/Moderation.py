@@ -34,9 +34,10 @@ class WipeChecks():
             return False
 
 class Wipedone(discord.ui.View):
-    def __init__(self,followup):
+    def __init__(self,followup,message):
         self.responded=False
         self.followup=followup
+        self.message=message
         super().__init__(timeout=5)
 
     @discord.ui.button(label="Got it!",style=discord.ButtonStyle.green)
@@ -87,10 +88,7 @@ class Moderation(commands.Cog):
         await itr.response.defer(ephemeral=hidden)
         twe=datetime.now()-timedelta(days=14)
         pur=await itr.channel.purge(limit=count,before=itrtime,after=twe,bulk=True,oldest_first=False)
-        view=Wipedone(followup=itr.followup) if not hidden else None
-        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
-        if not hidden:
-            view.message=itr.original_message()
+        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=Wipedone(followup=itr.followup,message=await itr.original_message()) if not hidden else None)
         return
 
     @wipe.sub_command()
