@@ -97,7 +97,7 @@ class Moderation(commands.Cog):
         await itr.response.defer(ephemeral=hidden)
         twe=datetime.now()-timedelta(days=14)
         pur=await itr.channel.purge(check=WipeChecks(count=count,user_id=user.id).usercheck,limit=500,before=itrtime,after=twe,bulk=True,oldest_first=False)
-        view=Wipedone() if not hidden else None
+        view=Wipedone(followup=None,message=None) if not hidden else None
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
         if not hidden:
             view.message=await itr.original_message()
