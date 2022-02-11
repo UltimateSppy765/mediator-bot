@@ -85,7 +85,7 @@ class Moderation(commands.Cog):
     @wipe.sub_command()
     async def off(self,itr,count:int=20,hidden:bool=False):
         await itr.response.defer(ephemeral=hidden)
-        pur=await itr.channel.purge(limit=count,before=itr.id,after=datetime.now()-timedelta(days=14),bulk=True,oldest_first=False)
+        pur=await itr.channel.purge(limit=count,before=itr,after=datetime.now()-timedelta(days=14),bulk=True,oldest_first=False)
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=Wipedone(followup=itr.followup,message=await itr.original_message()) if not hidden else None)
 
     @wipe.sub_command()
