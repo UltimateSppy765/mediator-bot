@@ -84,44 +84,29 @@ class Moderation(commands.Cog):
 
     @wipe.sub_command()
     async def off(self,itr,count:int=20,hidden:bool=False):
-        itrtime=datetime.now()
         await itr.response.defer(ephemeral=hidden)
-        twe=datetime.now()-timedelta(days=14)
-        pur=await itr.channel.purge(limit=count,before=itrtime,after=twe,bulk=True,oldest_first=False)
+        pur=await itr.channel.purge(limit=count,before=itr.id,after=datetime.now()-timedelta(days=14),bulk=True,oldest_first=False)
         await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=Wipedone(followup=itr.followup,message=await itr.original_message()) if not hidden else None)
-        return
 
     @wipe.sub_command()
     async def user(self,itr,user:discord.User,count:int=20,hidden:bool=False):
-        itrtime=datetime.now()
         await itr.response.defer(ephemeral=hidden)
         twe=datetime.now()-timedelta(days=14)
-        pur=await itr.channel.purge(check=WipeChecks(count=count,user_id=user.id).usercheck,limit=500,before=itrtime,after=twe,bulk=True,oldest_first=False)
-        view=Wipedone(followup=None,message=None) if not hidden else None
-        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
-        if not hidden:
-            view.message=await itr.original_message()
-            view.followup=itr.followup
-        return
+        pur=await itr.channel.purge(check=WipeChecks(count=count,user_id=user.id).usercheck,limit=500,before=itr.id,after=twe,bulk=True,oldest_first=False)
+        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=Wipedone(followup=itr.followup,message=await itr.original_message()) if not hidden else None)
 
     @wipe.sub_command()
     async def hastext(self,itr,text:str,user:discord.User=None,count:int=20,hidden:bool=False):
-        itrtime=datetime.now()
         await itr.response.defer(ephemeral=hidden)
         twe=datetime.now()-timedelta(days=14)
-        pur=await itr.channel.purge(check=WipeChecks(count=count,text=text.strip().lower(),user_id=user.id if user else None).hastextcheck,limit=500,before=itrtime,after=twe,bulk=True,oldest_first=False)
-        view=Wipedone() if not hidden else None
-        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=view)
-        if not hidden:
-            view.message=await itr.original_message()
-            view.followup=itr.followup
-        return
+        pur=await itr.channel.purge(check=WipeChecks(count=count,text=text.strip().lower(),user_id=user.id if user else None).hastextcheck,limit=500,before=itr.id,after=twe,bulk=True,oldest_first=False)
+        await itr.edit_original_message(content=f":broom: Successfully wiped {len(pur)} message{'s' if len(pur)>1 else ''}." if len(pur)>0 else ":negative_squared_cross_mark: No messages were wiped.",view=Wipedone(followup=itr.followup,message=await itr.original_message()) if not hidden else None)
 
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     @commands.slash_command()
     async def unban(self,itr,user:str,reason:str=None):
-        return await itr.response.send_message(':x: The command does nothing yet.',ephemeral=True)
+        await itr.response.send_message(':x: The command does nothing yet.',ephemeral=True)
 
     @unban.autocomplete('user')
     async def unban_autocomp(self,itr,string:str):
