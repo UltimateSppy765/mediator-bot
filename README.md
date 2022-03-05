@@ -15,4 +15,5 @@ Since the bot is primarily interaction based, you can use the bot using Slash Co
 ![Screenshot_20220305_150931](https://user-images.githubusercontent.com/73820738/156877714-3d099a64-5920-4b03-a22a-4849dae8a25a.jpg)
 
 You can also use the bot through context menus. (**Desktop Only** as of now)
+![Screenshot_2022_0305_151524](https://user-images.githubusercontent.com/73820738/156877931-41200774-447e-4adc-8557-1d769323d6e7.jpg)
 
