@@ -12,3 +12,4 @@ A moderation Discord made with following goals in mind:
 ---
 ## How to use the bot:
 Since the bot is primarily interaction based, you can use the bot using Slash Commands!
+![Screenshot_20220305_150931](https://user-images.githubusercontent.com/73820738/156877714-3d099a64-5920-4b03-a22a-4849dae8a25a.jpg)
