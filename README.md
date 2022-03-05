@@ -1,6 +1,6 @@
 # Mediator - The Bot
 
-A moderation Discord made with following goals in mind:
+A moderation Discord bot made with following goals in mind:
 - Fully leverage Discord's interaction API
 - Utilise in built moderation features provided by Discord for seamless moderation
 - Attempts to automate chat moderation using ML (I will try to incorporate this using Google's [Perspective Comment Analyser API](https://www.perspectiveapi.com/))
