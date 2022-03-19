@@ -12,10 +12,12 @@ A moderation Discord bot made with following goals in mind:
 ---
 ## How to use the bot:
 Since the bot is primarily interaction based, you can use the bot using Slash Commands!
-![Screenshot_20220305_150931](https://user-images.githubusercontent.com/73820738/156877714-3d099a64-5920-4b03-a22a-4849dae8a25a.jpg)
+
+![image](https://user-images.githubusercontent.com/73820738/159138862-ae2d39bc-573c-4f71-a81a-c0d44db2c814.png)
 
 You can also use the bot through context menus. (**Desktop Only** as of now)
-![Screenshot_2022_0305_151524](https://user-images.githubusercontent.com/73820738/156877931-41200774-447e-4adc-8557-1d769323d6e7.jpg)
+
+![image](https://user-images.githubusercontent.com/73820738/159139016-f63035d6-d381-4d9e-8469-1917de1aa2ab.png)
 
 ## What features does it offer?
 - Basic Moderation features
