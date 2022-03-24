@@ -1,4 +1,4 @@
-import os, discord
+import asyncio, os, discord
 from discord.ext import commands
 
 activity = discord.Activity(type=discord.ActivityType.watching, name='your messages!')
@@ -15,6 +15,6 @@ client = SomeClient()
 
 async def main():
     async with client:
-        await client.start()
+        await client.start(os.environ['BOT_TOKEN'])
 
 asyncio.run(main())
