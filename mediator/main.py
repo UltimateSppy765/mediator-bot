@@ -1,7 +1,20 @@
-import os
-import disnake as discord
-from disnake.ext import commands
+import os, discord
+from discord.ext import commands
 
-client=commands.InteractionBot(sync_commands=False,activity=discord.Activity(type=discord.ActivityType.watching,name='your messages!'),allowed_mentions=discord.AllowedMentions(everyone=False,roles=False))
+activity = discord.Activity(type=discord.ActivityType.watching, name='your messages!')
+intents = discord.Intents.default()
 
-client.run(os.environ['BOT_TOKEN']
+class SomeClient(commands.Bot):
+    def __init__(self) -> None:
+        super().__init__(command_prefix='!', activity=activity, intents=intents)
+
+    async def on_ready(self):
+        print(f'Bot is ready.\nLogged in as {str(self.user)} - {self.user}')
+
+client = SomeClient()
+
+async def main():
+    async with client:
+        await client.start()
+
+asyncio.run(main())
