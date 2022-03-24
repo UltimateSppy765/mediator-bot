@@ -1,2 +1,2 @@
-disnake
+git+https://github.com/Rapptz/discord.py.git
 Aiogoogle
