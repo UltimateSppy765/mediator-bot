@@ -1,4 +1,4 @@
-## Localization Folder
+# Localization Folder
 The `l10n` folder contains files that build a framework to allow for the bot to respond with multiple languages if needed.
 
 ## Languages Supported
@@ -7,7 +7,7 @@ The `l10n` folder contains files that build a framework to allow for the bot to 
 Currently supported languages:
 - English (en-GB, en-US)
 
-## Sample for using l10n in the bot:
+## Sample for using l10n in the bot
 The l10n for a particular Python file can be split to a separate JSON file containing responses in the given format:
 
 `file1.json`
@@ -46,4 +46,4 @@ except TypeError:
     print(l10ndata['somecommand']['errorresponse']['en-US'])
 ```
 
-_The given localizations are just a sample, they are not meant to reflect their respective language in reality._ 
+_The given localizations are just a sample, they are not meant to reflect their respective language in reality._
