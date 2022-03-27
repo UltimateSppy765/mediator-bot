@@ -23,4 +23,5 @@ async def main() -> None:
     async with client:
         await client.start(os.environ["BOT_TOKEN"])
 
+
 asyncio.run(main())
