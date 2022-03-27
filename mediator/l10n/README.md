@@ -1,4 +1,4 @@
-## Localisation Folder
+## Localization Folder
 The `l10n` folder contains files that build a framework to allow for the bot to respond with multiple languages if needed.
 
 ## Languages Supported
