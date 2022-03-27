@@ -10,7 +10,7 @@ A moderation Discord bot made with following goals in mind:
 - And maybe more stuff... ✨
 
 ---
-## How to use the bot:
+## How to use the bot
 Since the bot is primarily interaction based, you can use the bot using Slash Commands!
 
 ![image](https://user-images.githubusercontent.com/73820738/159138862-ae2d39bc-573c-4f71-a81a-c0d44db2c814.png)
