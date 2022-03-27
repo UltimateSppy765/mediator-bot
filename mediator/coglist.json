@@ -1,0 +1,13 @@
+{
+   "coglist": [
+        {
+            "name": "Miscellaneous",
+            "description": "Contains miscellaneous commands.",
+            "path": "imports.cogs.Miscellaneous",
+            "load_on_start": true
+        }
+    ],
+    "l10npath": {
+        "Miscellaneous": "{root}/l10n/cog_miscellaneous.json"
+    }
+}
