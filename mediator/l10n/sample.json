@@ -1,0 +1,12 @@
+{
+    "commandname": {
+        "response1": {
+            "en-US": "👋 Hello there!",
+            "en-GB": "👋 Hello there!"
+        },
+        "errorresponse": {
+            "en-US": "You are restricted from using this command in {wrongchannel}.",
+            "en-GB": "You are forbidden to use this command in {wrongchannel}."
+        }
+    }
+}
