@@ -48,7 +48,6 @@ async def main() -> None:
         )
         # Remove duplicates
         results = list(set(results))
-        print(results)
         try:
             results.remove(None)
         except ValueError:
