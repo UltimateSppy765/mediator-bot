@@ -48,6 +48,7 @@ async def main() -> None:
         )
         # Remove duplicates
         results = list(set(results))
+        print(results)
         results.remove(None)
         reslen = len(results)
         print(
