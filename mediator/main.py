@@ -9,20 +9,21 @@ from discord.ext import commands
 activity = discord.Activity(type=discord.ActivityType.watching, name="your messages!")
 intents = discord.Intents.default()
 
+with open("mediator/coglist.json", "r") as file:
+    cogdata = json.load(file)
+
 
 # Subclass commands.Bot to allow for stuff like persistent views
 class SomeClient(commands.Bot):
     def __init__(self) -> None:
         super().__init__(command_prefix="!", activity=activity, intents=intents)
+        self.l10nlist = cogdata["l10npath"]
 
     async def on_ready(self) -> None:
         print(f"Bot is ready.\nLogged in as {str(self.user)} - {self.user}")
 
 
 client = SomeClient()
-
-with open("mediator/coglist.json", "r") as file:
-    cogdata = json.load(file)
 
 
 async def cog_on_start(client, extension: str) -> str | None:
