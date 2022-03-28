@@ -15,8 +15,8 @@ The l10n for a particular Python file can be split to a separate JSON file conta
 {
     "somecommand": {
         "response": {
-            "en-US": "You input: {somearg}",
-            "en-GB": "You have input: {somearg}"
+            "en-US": "You input: {}",
+            "en-GB": "You have input: {}"
         },
         "errorresponse": {
             "en-US": "What you entered is not an integer, please try again with an integer.",
