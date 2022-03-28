@@ -20,7 +20,7 @@ class SomeClient(commands.Bot):
         self.l10nlist = cogdata["l10npath"]
 
     async def on_ready(self) -> None:
-        print(f"Bot is ready.\nLogged in as {str(self.user)} - {self.user}")
+        print(f"Bot is ready.\nLogged in as {self.user} - {self.user.id}")
 
 
 client = SomeClient()
