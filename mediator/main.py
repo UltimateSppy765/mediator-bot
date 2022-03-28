@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 
 import discord
@@ -18,9 +19,12 @@ class SomeClient(commands.Bot):
 
 client = SomeClient()
 
+with open("mediator/coglist.json", "r") as file:
+    cogdata = json.load(file)
 
 async def main() -> None:
     async with client:
+        await asyncio.gather(*(client.load_extension(i) for i in cogdata["coglist"] if i["load_on_start"]))
         await client.start(os.environ["BOT_TOKEN"])
 
 
