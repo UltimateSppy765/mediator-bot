@@ -20,7 +20,7 @@ class SomeClient(commands.Bot):
         self.l10nlist = cogdata["l10npath"]
 
     async def on_ready(self) -> None:
-        print(f"Bot is ready.\nLogged in as {str(self.user)} - {self.user}")
+        print(f"Bot is ready.\nLogged in as {self.user} - {self.user.id}")
 
 
 client = SomeClient()
@@ -48,7 +48,10 @@ async def main() -> None:
         )
         # Remove duplicates
         results = list(set(results))
-        results.remove(None)
+        try:
+            results.remove(None)
+        except ValueError:
+            pass
         reslen = len(results)
         print(
             f"Successfully loaded {reslen} extension{'' if reslen == 1 else 's'}.\nExtensions loaded: {results}"
