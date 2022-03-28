@@ -49,7 +49,10 @@ async def main() -> None:
         # Remove duplicates
         results = list(set(results))
         print(results)
-        results.remove(None)
+        try:
+            results.remove(None)
+        except ValueError:
+            pass
         reslen = len(results)
         print(
             f"Successfully loaded {reslen} extension{'' if reslen == 1 else 's'}.\nExtensions loaded: {results}"
