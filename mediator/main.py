@@ -38,11 +38,19 @@ async def cog_on_start(client, extension: str) -> str | None:
 async def main() -> None:
     async with client:
         # Asynchronously loads all extensions and returns a list containing the result values
-        loadedcogs = await asyncio.gather(*(cog_on_start(client, i["path"]) for i in cogdata["coglist"] if i["load_on_start"]))
+        loadedcogs = await asyncio.gather(
+            *(
+                cog_on_start(client, i["path"])
+                for i in cogdata["coglist"]
+                if i["load_on_start"]
+            )
+        )
         # Remove duplicates
         loadedcogs = list(set(loadedcogs))
         loadedcogs.remove(None)
-        print(f"Successfully loaded {len(loadedcogs)} extension{'' if len(loadedcogs) == 1 else 's'}.\nExtensions loaded: {loadedcogs}")
+        print(
+            f"Successfully loaded {len(loadedcogs)} extension{'' if len(loadedcogs) == 1 else 's'}.\nExtensions loaded: {loadedcogs}"
+        )
         await client.start(os.environ["BOT_TOKEN"])
 
 
