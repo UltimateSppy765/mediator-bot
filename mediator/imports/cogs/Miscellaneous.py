@@ -15,7 +15,6 @@ class Miscellaneous(commands.Cog):
 
     @app_commands.command(name="ping")
     async def ping(self, itr: discord.Interaction) -> None:
-        print(self.l10ndata)
         await itr.response.send_message(
             self.l10ndata["ping"]["response"][str(itr.locale)].format(
                 round(self.client.latency * 1000)
