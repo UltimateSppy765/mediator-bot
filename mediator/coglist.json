@@ -8,6 +8,6 @@
         }
     ],
     "l10npath": {
-        "Miscellaneous": "{root}/l10n/cog_miscellaneous.json"
+        "Miscellaneous": "mediator/l10n/cog_miscellaneous.json"
     }
 }
