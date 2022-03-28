@@ -9,6 +9,7 @@ from discord.ext import commands
 activity = discord.Activity(type=discord.ActivityType.watching, name="your messages!")
 intents = discord.Intents.default()
 
+
 # Subclass commands.Bot to allow for stuff like persistent views
 class SomeClient(commands.Bot):
     def __init__(self) -> None:
@@ -27,7 +28,7 @@ with open("mediator/coglist.json", "r") as file:
 async def cog_on_start(client, extension: str) -> str | None:
     try:
         await client.load_extension(extension)
-    except:
+    except Exception:
         print(traceback.format_exc())
         return None
     else:
