@@ -1,5 +1,7 @@
 import asyncio
+import json
 import os
+import traceback
 
 import discord
 from discord.ext import commands
@@ -8,6 +10,7 @@ activity = discord.Activity(type=discord.ActivityType.watching, name="your messa
 intents = discord.Intents.default()
 
 
+# Subclass commands.Bot to allow for stuff like persistent views
 class SomeClient(commands.Bot):
     def __init__(self) -> None:
         super().__init__(command_prefix="!", activity=activity, intents=intents)
@@ -18,9 +21,37 @@ class SomeClient(commands.Bot):
 
 client = SomeClient()
 
+with open("mediator/coglist.json", "r") as file:
+    cogdata = json.load(file)
+
+
+async def cog_on_start(client, extension: str) -> str | None:
+    try:
+        await client.load_extension(extension)
+    except Exception:
+        print(traceback.format_exc())
+        return None
+    else:
+        return extension
+
 
 async def main() -> None:
     async with client:
+        # Asynchronously loads all extensions and returns a list containing the result values
+        results = await asyncio.gather(
+            *(
+                cog_on_start(client, i["path"])
+                for i in cogdata["coglist"]
+                if i["load_on_start"]
+            )
+        )
+        # Remove duplicates
+        results = list(set(results))
+        results.remove(None)
+        reslen = len(results)
+        print(
+            f"Successfully loaded {reslen} extension{'' if reslen == 1 else 's'}.\nExtensions loaded: {results}"
+        )
         await client.start(os.environ["BOT_TOKEN"])
 
 
