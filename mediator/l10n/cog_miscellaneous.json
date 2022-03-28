@@ -1,0 +1,8 @@
+{
+    "ping": {
+        "response": {
+            "en-US": ":ping_pong: Bot latency is `{ping}ms`",
+            "en-GB": ":ping_pong: Bot latency is `{ping}ms`"
+        }
+    }
+}
