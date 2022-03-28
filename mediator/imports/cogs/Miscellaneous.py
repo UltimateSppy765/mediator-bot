@@ -1,3 +1,5 @@
+import json
+
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -8,6 +10,9 @@ class Miscellaneous(commands.Cog):
     
     def __init__(self, client) -> None:
         self.client = client
+        with open("mediator/coglist.json", "r") as file:
+            with open(json.load(file)["l10npath"]["Miscellaneous"]) as file2:
+                self.l10ndata = json.load(file2)
         
     @app_commands.command(name="ping")
     async def ping(self, itr: discord.Interaction) -> None:
