@@ -1,2 +1,2 @@
 git+https://github.com/Rapptz/discord.py.git
-Aiogoogle
+aiofiles>=0.8.0
