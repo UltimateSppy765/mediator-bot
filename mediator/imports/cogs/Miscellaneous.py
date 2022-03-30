@@ -9,7 +9,6 @@ from discord.ext import commands
 class Miscellaneous(commands.Cog):
     """Contains miscellaneous commands."""
 
-
     # https://stackoverflow.com/questions/33128325/how-to-set-class-attribute-with-await-in-init
     @classmethod
     async def initiate(cls, client):
