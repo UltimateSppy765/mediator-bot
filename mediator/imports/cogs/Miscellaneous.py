@@ -11,7 +11,7 @@ class Miscellaneous(commands.Cog):
     
     @classmethod
     async def create(cls, client):
-        self = Miscellaneous()
+        self = Miscellaneous(client)
         async with aiofiles.open(client.l10nlist["Miscellaneous"], "r") as file:
             self.l10ndata = json.loads(await file.read())
         return self
