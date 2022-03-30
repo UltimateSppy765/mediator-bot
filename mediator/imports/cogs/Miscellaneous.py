@@ -1,5 +1,6 @@
 import json
 
+import aiofiles
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -8,10 +9,14 @@ from discord.ext import commands
 class Miscellaneous(commands.Cog):
     """Contains miscellaneous commands."""
 
-    def __init__(self, client) -> None:
+    # https://stackoverflow.com/questions/33128325/how-to-set-class-attribute-with-await-in-init
+    @classmethod
+    async def initiate(cls, client):
+        self = Miscellaneous()
         self.client = client
-        with open(client.l10nlist["Miscellaneous"], "r") as file:
-            self.l10ndata = json.load(file)
+        async with aiofiles.open(client.l10nlist["Miscellaneous"], "r") as file:
+            self.l10ndata = json.loads(await file.read())
+        return self
 
     @app_commands.command(name="ping")
     async def ping(self, itr: discord.Interaction) -> None:
@@ -24,4 +29,5 @@ class Miscellaneous(commands.Cog):
 
 
 async def setup(client) -> None:
-    await client.add_cog(Miscellaneous(client))
+    Misc = await Miscellaneous.initiate(client)
+    await client.add_cog(Misc)
