@@ -171,7 +171,7 @@ class Moderation(commands.Cog):
             return await itr.response.send_message(':x: The mute duration cannot be longer than a day.',ephemeral=True)
         await itr.response.defer(ephemeral=False)
         tim=datetime.now(timezone.utc)+timedelta(seconds=mutetime)
-        r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["BOT_TOKEN"]}'},json={"communication_disabled_until":tim.isoformat()})
+        r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["PRIV_BOT_TOKEN"]}'},json={"communication_disabled_until":tim.isoformat()})
         if r.status_code==200:
             embed=discord.Embed(color=discord.Color(3092791),description=f':white_check_mark: {member.mention} was successfully muted until <t:{int(calendar.timegm(tim.utctimetuple()))}:F>.')
             if reason:
@@ -204,15 +204,15 @@ class Moderation(commands.Cog):
                 return await itr.response.send_message(':x: You cannot unmute this member as you do not have a role higher than their highest role.',ephemeral=True)
         if itr.me.top_role<=member.top_role:
             return await itr.response.send_message(':x: I cannot unmute this member because I do not have a role higher than their highest role.',ephemeral=True)
-        r=requests.get(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["BOT_TOKEN"]}'}).json()
+        r=requests.get(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["PRIV_BOT_TOKEN"]}'}).json()
         if not r['communication_disabled_until']:
             return await itr.response.send_message(':x: This member is not muted.',ephemeral=True)
         elif datetime.fromisoformat(r['communication_disabled_until'])<datetime.now(timezone.utc):
-            requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["BOT_TOKEN"]}'},json={"communication_disabled_until":None})
+            requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["PRIV_BOT_TOKEN"]}'},json={"communication_disabled_until":None})
             return await itr.response.send_message(':x: This member is not muted.',ephemeral=True)
         else:
             await itr.response.defer()
-            r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["BOT_TOKEN"]}'},json={"communication_disabled_until":None})
+            r=requests.patch(f'https://discord.com/api/v9/guilds/{itr.guild_id}/members/{member.id}',headers={'Authorization':f'Bot {os.environ["PRIV_BOT_TOKEN"]}'},json={"communication_disabled_until":None})
             if r.status_code==200:
                 embed=discord.Embed(color=discord.Color(3092791),description=f':white_check_mark: {member.mention} was successfully unmuted.')
                 if reason:
