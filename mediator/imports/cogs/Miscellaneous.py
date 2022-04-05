@@ -26,7 +26,7 @@ class Miscellaneous(commands.Cog):
                 style=discord.ButtonStyle.blurple,
                 label=self.l10ndata["ping"]["btnlabel"][str(itr.locale)],
                 custom_id="debug_button",
-                emoji="📄"
+                emoji="📄",
             )
         )
         await itr.response.send_message(
@@ -34,7 +34,7 @@ class Miscellaneous(commands.Cog):
                 round(self.client.latency * 1000)
             ),
             ephemeral=True,
-            view=DebugVieww
+            view=DebugVieww,
         )
 
 
