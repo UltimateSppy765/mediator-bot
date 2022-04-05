@@ -24,7 +24,7 @@ intents = discord.Intents(
     message_content=True,
     presences=False,
     voice_states=False,
-    webhooks=False
+    webhooks=False,
 )
 
 with open("mediator/coglist.json", "r") as file:
