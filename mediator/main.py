@@ -7,7 +7,25 @@ import discord
 from discord.ext import commands
 
 activity = discord.Activity(type=discord.ActivityType.watching, name="your messages!")
-intents = discord.Intents.default()
+intents = discord.Intents(
+    bans=True,
+    dm_messages=False,
+    dm_reactions=False,
+    dm_typing=False,
+    emojis_and_stickers=False,
+    guild_messages=True,
+    guild_reactions=True,
+    guild_scheduled_events=False,
+    guild_typing=False,
+    guilds=True,
+    integrations=False,
+    invites=False,
+    members=True,
+    message_content=True,
+    presences=False,
+    voice_states=False,
+    webhooks=False
+)
 
 with open("mediator/coglist.json", "r") as file:
     cogdata = json.load(file)
