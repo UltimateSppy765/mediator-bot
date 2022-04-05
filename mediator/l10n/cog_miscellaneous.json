@@ -1,8 +1,12 @@
 {
     "ping": {
         "response": {
-            "en-US": ":ping_pong: Bot latency is `{}ms`",
-            "en-GB": ":ping_pong: Bot latency is `{}ms`"
+            "en-US": ":ping_pong: Bot latency is `{}ms`.",
+            "en-GB": ":ping_pong: Bot latency is `{}ms`."
+        },
+        "btnlabel": {
+            "en-US": "More Info",
+            "en-GB": "More Info"
         }
     }
 }
