@@ -119,4 +119,4 @@ for i in data['cog_list']:
 if successnum>0:
     print(f'Successfully loaded {successnum} cog{"s" if successnum>1 else ""}.')
 
-client.run(os.environ['BOT_TOKEN'])
+client.run(os.environ['PRIV_BOT_TOKEN'])
