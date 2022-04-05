@@ -1,0 +1,88 @@
+name: Bug Report
+description: File a bug report.
+title: "[Bug]: "
+labels: ["unconfirmed bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Hello!
+        Thanks for taking the time to fill out this bug report! If you need real-time help, join us on Discord.
+  - type: input
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+      placeholder: The bot isn't being cool
+    validations:
+      required: true
+  - type: textarea
+    id: how-to-repro
+    attributes:
+      label: How to reproduce this bug?
+      description: Step wise describe how to reproduce this bug.
+      placeholder: |
+        1. I ran this command.
+        2. I clicked this button.
+        3. Observe.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behaviour
+      description: What behaviour did you expect to see?
+      placeholder: I expected to see a sweet embed.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behaviour
+      description: What actually happened?
+      placeholder: I see the bot kaboom!
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+      placeholder: Attach screenshots here!
+  - type: dropdown
+    id: client
+    attributes:
+      label: Which Discord client(s) were you using when you encountered this issue?
+      multiple: true
+      options:
+        - Desktop (Windows)
+        - Desktop (mac)
+        - Desktop (Linux)
+        - Browser
+        - Android
+        - iOS
+    validations:
+      required: true
+  - type: dropdown
+    id: rc
+    attributes:
+      label: Release channel of your Discord client(s)
+      multiple: true
+      options:
+        - Stable
+        - PTB (Desktop/Browser)
+        - Canary (Desktop/Browser)
+        - Beta (Android)/TestFlight (iOS)
+        - Alpha (Android)
+    validations:
+      required: true
+  - type: checkboxes
+    id: final-steps
+    attributes:
+      label: Final Steps
+      description: Some final steps before you submit your bug report.
+      options:
+        - label: I have ensured that this bug has not already been reported before.
+          required: true
+        - label: I have not violated Discord's [Terms of Service](https://discord.com/terms) while trying to reproduce the bug.
+          required: true
