@@ -20,11 +20,21 @@ class Miscellaneous(commands.Cog):
 
     @app_commands.command(name="ping")
     async def ping(self, itr: discord.Interaction) -> None:
+        DebugVieww = discord.ui.View(timeout=None)
+        DebugVieww.add_item(
+            discord.ui.Button(
+                style=discord.ButtonStyle.blurple,
+                label=self.l10ndata["ping"]["btnlabel"][str(itr.locale)],
+                custom_id="debug_button",
+                emoji="📄",
+            )
+        )
         await itr.response.send_message(
             self.l10ndata["ping"]["response"][str(itr.locale)].format(
                 round(self.client.latency * 1000)
             ),
             ephemeral=True,
+            view=DebugVieww,
         )
 
 
