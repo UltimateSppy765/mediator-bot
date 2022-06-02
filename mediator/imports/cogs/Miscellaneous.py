@@ -34,4 +34,4 @@ class Miscellaneous(commands.Cog):
 
 
 async def setup(client) -> None:
-    await client.add_cog(Miscellaneous())
+    await client.add_cog(Miscellaneous(client))
