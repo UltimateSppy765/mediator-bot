@@ -11,7 +11,7 @@ class Miscellaneous(commands.Cog):
     def __init__(self, client):
         self.client = client
         with open(client.l10nlist["Miscellaneous"], "r") as file:
-            self.l10ndata = json.loads(file)
+            self.l10ndata = json.load(file)
 
     @app_commands.command(name="ping")
     async def ping(self, itr: discord.Interaction) -> None:
