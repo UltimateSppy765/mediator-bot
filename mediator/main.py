@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import time
 import traceback
 
 import discord
@@ -56,6 +57,7 @@ async def cog_on_start(client, extension: str) -> str | None:
 
 async def main() -> None:
     async with client:
+        start_time = time.time()
         # Asynchronously loads all extensions and returns a list containing the result values
         results = await asyncio.gather(
             *(
@@ -64,6 +66,7 @@ async def main() -> None:
                 if i["load_on_start"]
             )
         )
+        end_time = time.time()
         # Remove duplicates
         results = list(set(results))
         try:
@@ -72,7 +75,7 @@ async def main() -> None:
             pass
         reslen = len(results)
         print(
-            f"Successfully loaded {reslen} extension{'' if reslen == 1 else 's'}.\nExtensions loaded: {results}"
+            f"Successfully loaded {reslen} extension{'' if reslen == 1 else 's'} in {end_time - start_time} seconds.\nExtensions loaded: {results}"
         )
         await client.start(os.environ["BOT_TOKEN"])
 
