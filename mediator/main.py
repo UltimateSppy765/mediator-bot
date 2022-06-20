@@ -75,7 +75,8 @@ async def main() -> None:
             pass
         reslen = len(results)
         print(
-            f"Successfully loaded {reslen} extension{'' if reslen == 1 else 's'} in {end_time - start_time} seconds.\nExtensions loaded: {results}"
+            f"Successfully loaded {reslen} extension{'' if reslen == 1 else 's'} in {end_time - start_time}",
+            f"second{'' if end_time - start_time == 1 else 's'}.\nExtensions loaded: {results}",
         )
         await client.start(os.environ["BOT_TOKEN"])
 
